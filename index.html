@@ -1,0 +1,1012 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 美力健康派｜課程簡報</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --navy:#16202E; --navy2:#1E2B3D; --panel:#212F44; --line:#31415A;
+    --orange:#F28C28; --orange2:#F6A94F; --paper:#FFFFFF; --ink:#1F2D3D;
+    --muted:#5C6B7A; --lightcard:#F5F7F9; --lightline:#E2E7EC; --ok:#2E9E6B; --bad:#C64545;
+  }
+  html,body { height:100%; background:#0D141F; font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC","Noto Sans CJK TC",sans-serif; overflow:hidden; }
+  #stage-wrap { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; }
+  #stage { width:1280px; height:720px; position:relative; transform-origin:center center; }
+  .slide { position:absolute; inset:0; background:var(--paper); border-radius:12px; padding:54px 70px; display:none; flex-direction:column; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.5); }
+  .slide.active { display:flex; }
+
+  /* dark slides */
+  .slide.dark { background:var(--navy); color:#EAF0F6; }
+  .slide.dark::before { content:""; position:absolute; right:-140px; top:-140px; width:420px; height:420px; border-radius:50%; background:var(--navy2); }
+  .slide.dark::after { content:""; position:absolute; right:120px; top:70px; width:84px; height:84px; border-radius:50%; background:var(--orange); }
+  .dark .kicker { color:var(--orange); }
+
+  .kicker { font-size:16px; letter-spacing:5px; font-weight:800; color:var(--orange); margin-bottom:10px; position:relative; z-index:2; }
+  h1 { font-size:62px; font-weight:900; line-height:1.2; letter-spacing:2px; position:relative; z-index:2; }
+  h2 { font-size:34px; font-weight:900; color:var(--ink); margin-bottom:6px; letter-spacing:.5px; }
+  h2 .accent { color:var(--orange); }
+  .sub { font-size:18px; color:var(--muted); margin-bottom:18px; }
+  .dark .sub { color:#B9C6D4; }
+
+  .statrow { display:flex; gap:14px; margin-top:30px; position:relative; z-index:2; flex-wrap:wrap; }
+  .stat { background:rgba(255,255,255,.05); border:1.5px solid var(--line); border-radius:12px; padding:13px 18px; min-width:198px; }
+  .stat .n { font-size:29px; font-weight:900; color:var(--orange); }
+  .stat .l { font-size:13.5px; color:#C7D2DE; margin-top:2px; }
+
+  .cards { display:grid; gap:16px; flex:1; align-content:center; }
+  .cards.c2 { grid-template-columns:1fr 1fr; }
+  .cards.c3 { grid-template-columns:1fr 1fr 1fr; }
+  .cards.c4 { grid-template-columns:1fr 1fr 1fr 1fr; }
+  .card { background:var(--lightcard); border:1.5px solid var(--lightline); border-radius:12px; padding:20px 22px; }
+  .card .ic { font-size:30px; margin-bottom:8px; display:block; }
+  .card h3 { font-size:19px; font-weight:800; color:var(--ink); margin-bottom:7px; }
+  .card h3 .o { color:var(--orange); }
+  .card p { font-size:15.5px; line-height:1.6; color:#43525F; }
+
+  .steps { display:flex; flex-direction:column; gap:12px; flex:1; justify-content:center; }
+  .step { display:flex; gap:16px; align-items:flex-start; background:var(--lightcard); border:1.5px solid var(--lightline); border-radius:12px; padding:14px 20px; }
+  .step .no { flex:0 0 40px; height:40px; border-radius:50%; background:var(--orange); color:#fff; font-size:18px; font-weight:900; display:flex; align-items:center; justify-content:center; }
+  .step h4 { font-size:18.5px; font-weight:800; color:var(--ink); margin-bottom:3px; }
+  .step p { font-size:15.5px; line-height:1.55; color:#43525F; }
+  .step code, .prompt code { background:#FBEBD6; color:#8A5410; border-radius:5px; padding:1px 7px; font-family:inherit; font-size:14.5px; }
+
+  .prompt { background:var(--navy); color:#DCE7F1; border-radius:12px; padding:18px 22px; font-size:15px; line-height:1.7; position:relative; }
+  .prompt b { color:var(--orange2); }
+  .prompt .cap { display:block; color:var(--orange); font-weight:800; font-size:14px; letter-spacing:2px; margin-bottom:8px; }
+  .copybtn { position:absolute; top:14px; right:16px; background:var(--orange); border:none; color:#fff; font-size:13px; font-weight:700; padding:6px 14px; border-radius:16px; cursor:pointer; font-family:inherit; }
+  .copybtn:hover { background:var(--orange2); }
+
+  .linkbtn { display:inline-flex; align-items:center; gap:8px; background:var(--orange); color:#fff; font-size:15.5px; font-weight:700; padding:9px 20px; border-radius:26px; text-decoration:none; margin:4px 8px 4px 0; }
+  .linkbtn.ghost { background:#fff; color:var(--orange); border:2px solid var(--orange); }
+  .linkbtn small { font-weight:500; opacity:.85; font-size:12px; }
+
+  .footer { position:absolute; bottom:16px; left:70px; right:70px; display:flex; justify-content:space-between; font-size:12.5px; color:#9AA8B5; z-index:3; }
+  .dark .footer { color:#7E8FA1; }
+  .src { position:absolute; bottom:38px; left:70px; right:70px; font-size:11.5px; color:#9AA8B5; font-style:italic; }
+
+  .quiz { display:flex; gap:24px; flex:1; align-items:center; justify-content:center; }
+  .quiz > div { flex:1; max-width:420px; border-radius:16px; padding:44px 30px; text-align:center; font-size:40px; font-weight:900; cursor:pointer; transition:all .45s; }
+  .quiz .a, .quiz .b { background:var(--lightcard); border:2px solid var(--lightline); color:var(--ink); position:relative; }
+  .quiz .a:hover, .quiz .b:hover { border-color:var(--orange2); transform:translateY(-4px); }
+  .quiz.revealed .b { background:#FDF3E3; border:2.5px solid var(--orange); transform:none; }
+  .quiz .b::after { content:"✔"; position:absolute; right:18px; bottom:10px; font-size:46px; color:var(--ok); opacity:0; transform:scale(.2) rotate(-20deg); transition:all .5s .15s; }
+  .quiz.revealed .b::after { opacity:1; transform:scale(1) rotate(0deg); }
+  .quiz.revealed .a { opacity:.38; transform:scale(.94); }
+  .quiz.revealed .a::after { content:"✖"; position:absolute; right:18px; bottom:10px; font-size:40px; color:var(--bad); }
+  .quiz .note { font-size:15px; font-weight:500; color:var(--muted); margin-top:10px; }
+  .qnote { opacity:0; transform:translateY(10px); transition:all .55s .35s; }
+  .qnote.shown { opacity:1; transform:none; }
+
+  .vs { display:flex; gap:20px; flex:1; align-items:stretch; }
+  .vs > div { flex:1; border-radius:14px; padding:22px 26px; }
+  .vs .m { background:#FBEDED; border:2px solid #DFA8A8; }
+  .vs .f { background:#FDF3E3; border:2px solid var(--orange); }
+  .vs h3 { font-size:20px; font-weight:900; margin-bottom:10px; }
+  .vs .m h3 { color:var(--bad); }
+  .vs .f h3 { color:#9A5E10; }
+  .vs p, .vs li { font-size:16px; line-height:1.7; color:#374757; }
+  .vs ul { padding-left:20px; }
+
+  .chat { display:flex; flex-direction:column; gap:11px; flex:1; justify-content:center; }
+  .bubble { max-width:80%; border-radius:15px; padding:12px 18px; font-size:15.5px; line-height:1.6; }
+  .bubble.user { align-self:flex-end; background:var(--navy); color:#fff; border-bottom-right-radius:4px; }
+  .bubble.ai { align-self:flex-start; background:var(--lightcard); color:#2B3A47; border:1.5px solid var(--lightline); border-bottom-left-radius:4px; }
+  .bubble.ai b { color:var(--orange); }
+  .bar { display:flex; align-items:center; gap:10px; font-size:14.5px; margin:3px 0; }
+  .bar .lab { width:62px; font-weight:700; color:#43525F; }
+  .bar .track { flex:1; height:13px; background:#E7ECF0; border-radius:7px; overflow:hidden; }
+  .bar .fill { height:100%; border-radius:7px; }
+  .bar .val { width:44px; text-align:right; font-weight:800; color:var(--ink); }
+
+  table.tb { width:100%; border-collapse:collapse; font-size:15.5px; }
+  .tb th { background:var(--navy); color:#fff; padding:9px 14px; text-align:left; font-weight:800; }
+  .tb td { padding:8px 14px; border-bottom:1.5px solid var(--lightline); color:#2B3A47; line-height:1.5; }
+  .tb tr:nth-child(even) td { background:var(--lightcard); }
+  .tb a { color:var(--orange); font-weight:700; text-decoration:none; word-break:break-all; }
+
+  .notice { background:#FDF3E3; border:2px solid var(--orange2); border-radius:12px; padding:12px 18px; font-size:15px; color:#8A5410; line-height:1.6; }
+
+
+  .pk { display:flex; flex-direction:column; gap:10px; flex:1; justify-content:center; }
+  .pk .prompt { font-size:12.8px; line-height:1.55; padding:12px 18px; }
+  .pk .prompt .cap { font-size:12.5px; margin-bottom:5px; }
+  .pk .copybtn { top:9px; right:12px; padding:4px 12px; font-size:12px; }
+
+
+  .applinks { position:absolute; top:48px; right:70px; display:flex; gap:8px; z-index:6; }
+  .applinks .ap { font-size:12.5px; font-weight:800; padding:6px 14px; border-radius:18px; text-decoration:none; color:#fff; box-shadow:0 2px 8px rgba(0,0,0,.18); display:inline-flex; align-items:center; gap:5px; }
+  .ap.g { background:#4285F4; } .ap.c { background:#10A37F; } .ap.v { background:#8B3DFF; }
+  .ap:hover { filter:brightness(1.1); }
+
+
+  #modebtn { position:fixed; top:14px; right:22px; z-index:20; background:rgba(255,255,255,.14); color:#fff; border:1px solid rgba(255,255,255,.28); border-radius:20px; padding:7px 16px; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit; }
+  #modebtn:hover { background:rgba(255,255,255,.3); }
+  body.scroll #stage-wrap { display:block; overflow-y:auto; }
+  body.scroll #stage { position:relative; width:1280px; height:auto; margin:22px auto 40px; transform:none !important; }
+  body.scroll .slide { position:relative; display:flex; inset:auto; height:720px; margin:0 0 28px 0; }
+  body.scroll #nav, body.scroll #pageno { display:none; }
+
+  #nav { position:fixed; bottom:16px; right:22px; display:flex; gap:10px; z-index:10; }
+  #nav button { width:44px; height:44px; border-radius:50%; border:none; background:rgba(255,255,255,.14); color:#fff; font-size:19px; cursor:pointer; }
+  #nav button:hover { background:rgba(255,255,255,.3); }
+  #pageno { position:fixed; bottom:27px; left:26px; color:rgba(255,255,255,.6); font-size:14px; z-index:10; letter-spacing:1px; }
+  .center { flex:1; display:flex; flex-direction:column; justify-content:center; }
+  .two { display:grid; grid-template-columns:1fr 1fr; gap:24px; flex:1; align-content:center; align-items:start; }
+  .demo-card { background:#FDF3E3; border:2px solid var(--orange); border-radius:14px; padding:20px 24px; }
+  .demo-card h3 { font-size:20px; font-weight:900; color:#9A5E10; margin-bottom:10px; }
+  .demo-card li { font-size:15.5px; line-height:1.8; color:#4A3A20; list-style:none; }
+  .demo-card li::before { content:"✔"; color:var(--ok); font-weight:900; margin-right:8px; }
+  .tagline { display:inline-block; background:var(--orange); color:#fff; border-radius:14px; font-size:13px; font-weight:700; padding:2px 12px; margin-bottom:10px; }
+</style>
+</head>
+<body>
+<div id="stage-wrap"><div id="stage">
+
+<!-- 1 封面 -->
+<section class="slide dark active">
+  <div class="center" style="align-items:flex-start">
+    <div class="kicker">永豐餘 AI CLUB｜企業內訓</div>
+    <h1>AI 美力健康派</h1>
+    <p style="font-size:25px; margin-top:16px; color:#C7D2DE; position:relative; z-index:2;">告別久坐痠痛與外食焦慮，AI 幫你顧健康</p>
+    <div class="statrow">
+      <div class="stat"><div class="n">25.4%</div><div class="l">成人有慢性疼痛</div></div>
+      <div class="stat"><div class="n">51.3%</div><div class="l">成人過重及肥胖</div></div>
+      <div class="stat"><div class="n">1 / 4</div><div class="l">成人有高血壓（慢性病之首）</div></div>
+      <div class="stat"><div class="n">↑88%</div><div class="l">久坐≥6h 頸痛風險</div></div>
+      <div class="stat"><div class="n">↓45%</div><div class="l">運動＋衛教 減下背痛</div></div>
+    </div>
+    <p style="font-size:11.5px; margin-top:10px; color:#6E7F91; position:relative; z-index:2;">資料來源：國健署 2020–2024 國民營養健康調查・Cureus 2025・BMC Public Health 2025</p>
+    <p style="font-size:17px; margin-top:34px; font-weight:700; position:relative; z-index:2;">｜　講者：鍾孟修 職能治療師</p>
+    <p style="font-size:14px; margin-top:6px; color:#8FA0B1; position:relative; z-index:2;">2026.08.21（五）12:30–13:30・Cisco Webex 線上直播</p>
+  </div>
+  <div class="footer"><span>AI 美力健康派</span><span class="pn"></span></div>
+</section>
+
+<!-- 2 講師介紹 -->
+<section class="slide">
+  <div class="kicker">SPEAKER</div>
+  <h2>大家好！我是 <span class="accent">鍾孟修</span> 職能治療師</h2>
+  <div style="display:grid; grid-template-columns:240px 1fr 1.05fr; gap:20px; flex:1; align-items:stretch;">
+    <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; gap:10px;">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSxG9Pmj7uYUjlAQnuX2XWPoJ1615dbOFOGAVXJiSIa9d99mDkde4G3CKy&s=10" alt="鍾孟修 職能治療師" id="speakerimg" style="width:225px; height:300px; object-fit:cover; border-radius:14px; border:3px solid var(--orange); box-shadow:0 8px 24px rgba(22,32,46,.18);">
+      <p style="font-size:14px; font-weight:700; color:var(--ink);">鍾孟修 Matt｜職能治療師</p>
+    </div>
+    <div class="card" style="display:flex; flex-direction:column; justify-content:center">
+      <h3 style="font-size:20px; color:var(--ink); margin-bottom:10px;">現任</h3>
+      <p>愛迪樂健康促進團隊 執行長<br>愛迪樂居家職能治療所 所長<br>社團法人台灣生活復能健康促進協會 理事長<br>《讓你健康不失智的體智能》作者（商周出版）</p>
+      <h3 style="font-size:20px; color:var(--ink); margin:14px 0 8px;">專業認證</h3>
+      <p>銀髮體適能教練・皮拉提斯教練 ABC 級<br>MAT 功能性評估國際認證・簡報遊戲化教學設計</p>
+    </div>
+    <div class="cards c2" style="align-content:center">
+      <div class="card" style="background:#FDF3E3;border-color:var(--orange2)"><h3><span class="o">長照復能</span></h3><p>居家復能與功能性復能課程設計</p></div>
+      <div class="card" style="background:#FDF3E3;border-color:var(--orange2)"><h3><span class="o">銀髮體適能</span></h3><p>科學化運動訓練與體智能開發</p></div>
+      <div class="card" style="background:#FDF3E3;border-color:var(--orange2)"><h3><span class="o">職場健康</span></h3><p>華碩、台灣高鐵、日煙國際等企業講座</p></div>
+      <div class="card" style="background:#FDF3E3;border-color:var(--orange2)"><h3><span class="o">遊戲化教學</span></h3><p>AI 工具 × 健康促進課程設計</p></div>
+    </div>
+  </div>
+  <div class="footer"><span>講師介紹</span><span class="pn"></span></div>
+</section>
+
+<!-- 3 agenda -->
+<section class="slide">
+  <div class="kicker">AGENDA</div>
+  <h2>今日流程</h2>
+  <div class="center">
+    <table class="tb">
+      <tr><th style="width:160px">時間</th><th style="width:330px">單元</th><th>重點</th></tr>
+      <tr><td>12:30–12:35</td><td>開場｜痠痛的真相</td><td>快問快答＋今日工具地圖（資料庫 × 啟動提示詞）</td></tr>
+      <tr><td>12:35–12:50</td><td>單元一｜辦公室微運動 × AI</td><td>AI 工作站姿勢健檢・運動點心・痠痛／上班族運動資料庫・啟動提示詞①</td></tr>
+      <tr><td>12:50–13:05</td><td>單元二｜外食族的 AI 營養解密</td><td>拍照技巧・AI 營養師衛教助理（啟動提示詞②）・營養影片資料庫</td></tr>
+      <tr><td>13:05–13:15</td><td>單元三｜健康迷思與數據轉譯</td><td>健檢報告拍照分析・AI 健康管理教練（啟動提示詞③）・慢性病資料庫</td></tr>
+      <tr><td>13:15–13:20</td><td>實作任務＋持續追蹤</td><td>21 天監督教練・定時提醒設定・健康應援卡（圖片／PDF／桌布／網頁）</td></tr>
+      <tr><td>13:20–13:30</td><td>Q&A 交流</td><td>現場提問與痛點解答</td></tr>
+    </table>
+  </div>
+  <div class="footer"><span>今日流程</span><span class="pn"></span></div>
+</section>
+
+<!-- 4 quiz -->
+<section class="slide">
+  <div class="kicker">開場｜快問快答</div>
+  <h2>造成痠痛的<span class="accent">最大原因</span>是哪個？</h2>
+  <p class="sub">請大家搶答——點選你覺得的答案！</p>
+  <div class="quiz" id="quizbox">
+    <div class="a" onclick="quizReveal()">姿勢不良<div class="note">坐歪、駝背、翹腳……？</div></div>
+    <div class="b" onclick="quizReveal()">缺乏活動<div class="note">「不動」比「歪著」更傷身！</div></div>
+  </div>
+  <div class="notice qnote" id="quiznote">實證醫學真相：最好的姿勢，就是「下一個姿勢」——每 30 分鐘起身動 1 分鐘，強韌的脊椎是「動」出來的。</div>
+  <div class="footer"><span>開場</span><span class="pn"></span></div>
+</section>
+
+<!-- 5 久坐機轉 -->
+<section class="slide">
+  <div class="kicker">開場｜久坐的內在機轉</div>
+  <h2>久坐為什麼讓你<span class="accent">又痛又發炎</span>？</h2>
+  <div class="two">
+    <div>
+      <div class="steps" style="gap:10px">
+        <div class="step"><div class="no">1</div><div><h4>肌肉不收縮</h4><p>脂蛋白脂酶（LPL）活性大降 → 三酸甘油酯清不掉、好膽固醇（HDL）下降。</p></div></div>
+        <div class="step"><div class="no">2</div><div><h4>循環變慢、代謝停滯</h4><p>慢性低度發炎（CRP、IL-6）上升，痠痛遷延、難好、易復發。</p></div></div>
+        <div class="step"><div class="no">3</div><div><h4>動起來就重新活化</h4><p>一起身活動，LPL 就重新啟動——身體是為活動而設計的。</p></div></div>
+      </div>
+    </div>
+    <div class="demo-card" style="align-self:center">
+      <span class="tagline">解法：坐著也要「動來動去」</span>
+      <ul>
+        <li>坐著抖腳／踏步能防止腿部血管功能下降（2016）</li>
+        <li>動態坐姿、常換姿勢，比完全靜止好很多</li>
+        <li>每 30–60 分鐘起身 1–2 分鐘，效果更佳</li>
+        <li>每坐 30 分鐘走 5 分鐘：飯後血糖峰值 ↓58%</li>
+      </ul>
+    </div>
+  </div>
+  <div class="src">來源：久坐與低度發炎（CRP/IL-6）研究；Fidgeting 護血管, AJP-Heart 2016；哥倫比亞大學 2023 運動點心實驗。</div>
+  <div class="footer"><span>開場</span><span class="pn"></span></div>
+</section>
+
+<!-- 6 dose-response -->
+<section class="slide">
+  <div class="kicker">最新高等級研究・2025 統合分析</div>
+  <h2>久坐越久，痠痛風險越高<span class="accent">（有劑量反應）</span></h2>
+  <p class="sub">25 篇研究、43,184 人統合分析：久坐與頸痛整體 OR＝1.46（風險 +46%）</p>
+  <div class="cards c4">
+    <div class="card"><h3 style="font-size:30px;color:var(--orange)">↑60%</h3><p><b>久坐 ≥4 小時</b><br>頸痛風險（OR 1.60）</p></div>
+    <div class="card"><h3 style="font-size:30px;color:var(--orange)">↑88%</h3><p><b>久坐 ≥6 小時</b><br>頸痛風險（OR 1.88）</p></div>
+    <div class="card"><h3 style="font-size:30px;color:var(--orange)">OR 1.97</h3><p><b>上班族族群</b><br>久坐與頸痛關聯最強</p></div>
+    <div class="card"><h3 style="font-size:30px;color:var(--orange)">1.82＞1.23</h3><p><b>低頭滑手機 vs 用電腦</b><br>低頭角度越大、頸椎負荷越重——把螢幕抬到眼睛高度就是保護頸椎</p></div>
+  </div>
+  <div class="src">來源：BMC Public Health 2025（25 studies, n=43,184）。OR＝勝算比，>1 表示風險上升。</div>
+  <div class="footer"><span>開場</span><span class="pn"></span></div>
+</section>
+
+<!-- 7 unit1 title -->
+<section class="slide dark">
+  <div class="center" style="align-items:flex-start">
+    <div class="kicker">UNIT 1｜12:35–12:50</div>
+    <h1 style="font-size:50px">辦公室微運動 × AI</h1>
+    <p style="font-size:21px; margin-top:18px; color:#C7D2DE; position:relative; z-index:2;">運動點心 → 痠痛／核心影片資料庫 → 啟動提示詞，AI 客製你的 3 分鐘微運動菜單</p>
+  </div>
+  <div class="footer"><span>單元一</span><span class="pn"></span></div>
+</section>
+
+
+<!-- 工作站姿勢健檢 -->
+<section class="slide">
+  <div class="kicker">單元一｜先健檢，再運動</div>
+  <h2>AI <span class="accent">工作站姿勢健檢</span>——拍三張照，讓 AI 抓出問題</h2>
+  <p class="sub">學員最想要的第一名：用 AI 評估我的工作站與坐姿</p>
+  <div class="two">
+    <div class="steps" style="gap:9px">
+      <div class="step" style="padding:11px 16px"><div class="no">1</div><div><h4 style="font-size:16.5px">側面全身照（最重要）</h4><p style="font-size:13.5px">請同事幫忙從正側面拍，或把手機立在桌上用定時拍。要拍到頭、肩、腰、椅子、桌面與螢幕，用平常工作的姿勢就好，不要刻意坐正。</p></div></div>
+      <div class="step" style="padding:11px 16px"><div class="no">2</div><div><h4 style="font-size:16.5px">正面照</h4><p style="font-size:13.5px">看兩肩是否等高、身體有沒有歪向一邊、手腕有沒有折角、有沒有翹腳。</p></div></div>
+      <div class="step" style="padding:11px 16px"><div class="no">3</div><div><h4 style="font-size:16.5px">桌面俯視照</h4><p style="font-size:13.5px">拍螢幕、鍵盤、滑鼠與常用物品的相對位置——很多痠痛是「東西擺太遠」造成的。</p></div></div>
+      <div class="notice" style="padding:10px 16px; font-size:13.5px;">不方便拍照？直接用文字描述也可以：「我 170 公分、用筆電沒有外接螢幕、椅子沒有扶手…」AI 一樣能給建議。調整完隔天再拍一次做前後對比！</div>
+    </div>
+    <div>
+      <div class="prompt" style="font-size:13px; line-height:1.6;">
+      <span class="cap">姿勢健檢提示詞（複製即用）</span>
+      <button class="copybtn" data-copy="pos1">複製提示詞</button>
+      <span id="pos1">你是職能治療師與人因工程顧問。我上傳的是我的辦公座位與工作姿勢照片（側面／正面／桌面俯視）。
+請依人因工程原則逐項評估，用表格回覆，每項都要寫「現況 → 問題 → 具體怎麼調」：
+1. 螢幕高度與距離（上緣是否與視線同高、約一臂距離）
+2. 椅子高度與腰部支撐（膝約 90 度、雙腳踩地、腰有無支撐）
+3. 手肘與手腕角度（手肘約 90 度、手腕是否中立不折腕）
+4. 頭頸與軀幹（是否頭前傾、圓肩、駝背、翹腳、身體歪一邊）
+調整建議請具體到「幾公分、墊什麼、移到哪」，並優先給不用花錢的做法。
+最後請依你發現最主要的問題，直接幫我產出對應的 3 分鐘微運動菜單。</span>
+    </div>
+    </div>
+  </div>
+  <div class="footer"><span>單元一</span><span class="pn"></span></div>
+</section>
+
+<!-- 8 運動點心 -->
+<section class="slide">
+  <div class="kicker">單元一｜EXERCISE SNACKS</div>
+  <h2>運動點心——<span class="accent">拆碎的運動，效果反而更好</span></h2>
+  <p class="sub">每次 1–3 分鐘的短時間身體活動分散在一天中，總量不變、效果更好</p>
+  <div class="two">
+    <div class="cards c2" style="gap:10px">
+      <div class="card" style="padding:14px 16px"><h3 style="font-size:16.5px">起立坐下 ×10</h3><p style="font-size:14px">啟動下肢、降血糖</p></div>
+      <div class="card" style="padding:14px 16px"><h3 style="font-size:16.5px">靠牆深蹲 30 秒</h3><p style="font-size:14px">大腿前側、臀部</p></div>
+      <div class="card" style="padding:14px 16px"><h3 style="font-size:16.5px">牆面伏地挺身 ×10</h3><p style="font-size:14px">胸、肩、核心</p></div>
+      <div class="card" style="padding:14px 16px"><h3 style="font-size:16.5px">踮腳尖 ×20</h3><p style="font-size:14px">改善下肢循環</p></div>
+      <div class="card" style="padding:14px 16px"><h3 style="font-size:16.5px">脖子前後左右 ×5</h3><p style="font-size:14px">頸椎活動度</p></div>
+      <div class="card" style="padding:14px 16px"><h3 style="font-size:16.5px">上下樓梯 1–2 層</h3><p style="font-size:14px">心肺＋下肢</p></div>
+    </div>
+    <div class="demo-card" style="align-self:center">
+      <span class="tagline">實證效果：每小時起來動 2–3 分鐘</span>
+      <ul>
+        <li>飯後血糖 ↓17%</li>
+        <li>收縮壓 ↓4–5 mmHg</li>
+        <li>整體死亡率 顯著下降</li>
+        <li>NASA 研究：每天起身 32 次，比健身房 1 小時＋久坐更護代謝</li>
+      </ul>
+    </div>
+  </div>
+  <div class="src">來源：Chang et al., Front Nutr 2025（17 RCT）；Diaz et al., Ann Intern Med 2017；Vernikos, Aviat Space Environ Med 1996。</div>
+  <div class="footer"><span>單元一</span><span class="pn"></span></div>
+</section>
+
+<!-- 產出提示詞包 -->
+<section class="slide">
+  <div class="kicker">單元一｜實作帶練：換你做！（運動點心 → 產出）</div>
+  <h2>把你的運動點心菜單 → <span class="accent">做成圖片・PDF・網頁</span></h2>
+  <div class="pk">
+    <div class="prompt">
+      <span class="cap">🖼 生圖提示詞</span>
+      <button class="copybtn" data-copy="u1a">複製提示詞</button>
+      <span id="u1a">幫我製作衛教圖片，A4 直式，對象：辦公室上班族，主題：【我的辦公室 3 分鐘微運動菜單】，風格：繪本風、清新配色，內容以分格＋圖示呈現以下動作（來自痠痛影片資料庫與 AI 分析結果）：【貼上你的菜單內容】，附大標題與一句提醒標語，文字要大而清楚。</span>
+    </div>
+    <div class="prompt">
+      <span class="cap">📱 桌布版提示詞（接續同一對話貼上）</span>
+      <button class="copybtn" data-copy="w1">複製提示詞</button>
+      <span id="w1">請把剛剛的微運動菜單，改做成兩張桌布：① 手機桌布 9:16 直式，主要內容置中偏下、上方留空給時鐘 ② 電腦桌布 16:9 橫式，內容靠左、右側留空給桌面圖示。字要大、對比清楚，一眼就看得到今天要做的動作。</span>
+    </div>
+    <div class="prompt">
+      <span class="cap">📄 PDF 提示詞</span>
+      <button class="copybtn" data-copy="u1b">複製提示詞</button>
+      <span id="u1b">請將以上微運動菜單與注意事項，排版為一頁 A4 圖文版面：大標題、動作表格（動作／次數／秒數／目標部位）、注意事項框、以及「每 30 分鐘起身動 1 分鐘」的提醒；排好後我會複製到文件匯出成 PDF。</span>
+    </div>
+    <div class="prompt">
+      <span class="cap">🌐 網頁提示詞</span>
+      <button class="copybtn" data-copy="u1c">複製提示詞</button>
+      <span id="u1c">請幫我製作一個單一 HTML 檔案的網頁（CSS、JS 寫在同一檔案內），主題：【我的辦公室微運動菜單】，內容：【貼上你的菜單內容】，需求：手機好閱讀、每個動作附勾選框、附「痠痛影片資料庫」連結按鈕（https://mattsue1003.github.io/bodysoreproblemlearn/），完成後給我完整程式碼，我會存成 index.html 上架到 Netlify。</span>
+    </div>
+  </div>
+  <div class="footer"><span>單元一</span><span class="pn"></span></div>
+</section>
+
+<!-- Typeless 教學 -->
+<section class="slide">
+  <div class="kicker">實作神隊友｜TYPELESS 語音輸入</div>
+  <h2>提示詞用<span class="accent">「說的」</span>最快——Typeless 語音輸入</h2>
+  <p class="sub">帶實作、改提示詞不用慢慢打字：講完，它自動變成通順文字</p>
+  <div class="two" style="align-items:stretch">
+    <div class="cards c2" style="gap:10px; align-content:center">
+      <div class="card" style="padding:14px 16px"><h3 style="font-size:16px">自動刪贅字</h3><p style="font-size:13.5px">「嗯…那個…然後」全部自動拿掉。</p></div>
+      <div class="card" style="padding:14px 16px"><h3 style="font-size:16px">中途改口沒關係</h3><p style="font-size:13.5px">只留你最後的意思，不用回頭改。</p></div>
+      <div class="card" style="padding:14px 16px"><h3 style="font-size:16px">自動整理成通順句子</h3><p style="font-size:13.5px">還會幫你排列點、分段。</p></div>
+      <div class="card" style="padding:14px 16px"><h3 style="font-size:16px">依 App 調整語氣</h3><p style="font-size:13.5px">信件正式、聊天輕鬆，自動切換。</p></div>
+    </div>
+    <div class="steps" style="gap:9px">
+      <div class="step" style="padding:11px 16px"><div class="no">1</div><div><h4 style="font-size:16px">下載並登入</h4><p style="font-size:13.5px">用 Google 帳號或 Email 登入；手機版是安裝「Typeless 鍵盤」並在系統設定啟用。</p></div></div>
+      <div class="step" style="padding:11px 16px"><div class="no">2</div><div><h4 style="font-size:16px">允許兩個權限</h4><p style="font-size:13.5px">麥克風（聽你說話）＋輔助使用（把文字放進輸入框），跳出詢問都按「允許」。</p></div></div>
+      <div class="step" style="padding:11px 16px"><div class="no">3</div><div><h4 style="font-size:16px">開始說話</h4><p style="font-size:13.5px">Mac 按一下 <code>fn</code> 開始講、說完再按一下；Windows 按 <code>右 Alt</code>；手機按住說話鍵。進階：<code>Fn＋Shift</code> 即時翻譯、選取文字後 <code>Fn＋Space</code> 隨口問。</p></div></div>
+      <div style="margin-top:2px"><a class="linkbtn" href="https://www.typeless.com/?via=a98a08" target="_blank">🎤 下載 Typeless</a> <span style="font-size:12.5px;color:#8494A2">typeless.com/?via=a98a08・支援 macOS／Windows／iPhone／Android</span></div>
+    </div>
+  </div>
+  <div class="footer"><span>實作神隊友</span><span class="pn"></span></div>
+</section>
+
+<!-- 9 資料庫 -->
+<section class="slide">
+  <div class="kicker">單元一｜教學資源（真實網頁，建議加入書籤）</div>
+  <h2>兩大影片資料庫——<span class="accent">跟著專業影片動</span></h2>
+  <div class="cards c2">
+    <div class="card">
+      <span class="ic">🎬</span><h3>痠痛問題影片學習資料庫</h3>
+      <p>46 種常見痠痛問題 × 專業物理治療師／醫師影片。依部位／症狀搜尋、篩選、跟著學，支援中英文搜尋 × Gemini 輔助學習。</p>
+      <div style="margin-top:12px"><a class="linkbtn" href="https://mattsue1003.github.io/bodysoreproblemlearn/" target="_blank">開啟資料庫</a></div>
+      <p style="font-size:12.5px;margin-top:8px;color:#8494A2">mattsue1003.github.io/bodysoreproblemlearn</p>
+    </div>
+    <div class="card">
+      <span class="ic">💪</span><h3>上班族運動影片資料庫</h3>
+      <p>專為久坐族整理的運動影片：桌邊微運動、辦公室伸展、居家肌力與核心訓練，依情境與部位分類，找動作更快。</p>
+      <div style="margin-top:12px"><a class="linkbtn" href="https://mattsue1003.github.io/office-worker-workouts/" target="_blank">開啟資料庫</a></div>
+      <p style="font-size:12.5px;margin-top:8px;color:#8494A2">mattsue1003.github.io/office-worker-workouts</p>
+    </div>
+  </div>
+  <div class="notice">使用三步驟：① 開啟資料庫網頁 → ② 依部位／症狀查找主題影片 → ③ 跟著影片動＋把「部位＋情境＋感受」丟給 AI 進一步分析（下頁）。學習與預防保健，不能取代就醫評估。</div>
+  <div class="footer"><span>單元一</span><span class="pn"></span></div>
+</section>
+
+<!-- 10 問問 Gemini -->
+<section class="slide">
+  <div class="kicker">單元一｜瀏覽器裡的 AI</div>
+  <h2>Chrome「<span class="accent">問問 Gemini</span>」——看影片、讀網頁的最佳搭檔</h2>
+  <div class="steps" style="gap:9px">
+    <div class="step"><div class="no">1</div><div><h4>開啟側邊欄</h4><p>Chrome 右上角點 Gemini 圖示（或網址列輸入 <code>@gemini</code>）——瀏覽網頁、看 YouTube 時不用切換分頁。</p></div></div>
+    <div class="step"><div class="no">2</div><div><h4>直接讀取影片與網頁內容</h4><p>開著資料庫裡的影片問：「這部影片的重點是什麼？」「哪些人不適合這樣做？」——目前只有 Gemini 能直接讀取 YouTube 影片內容。</p></div></div>
+    <div class="step"><div class="no">3</div><div><h4>健康情境隨手問</h4><p>看到營養標示、健康文章反白框選就能問：「這段話正確嗎？有什麼實證依據？」——養成先查證再行動的習慣。</p></div></div>
+  </div>
+  <div class="notice" style="margin-top:10px; flex:0 0 auto; padding:10px 16px; font-size:13.5px;">
+    <b>沒有 Chrome？沒關係，三條路都能上：</b>　① 先<b>下載 Chrome</b>（下方按鈕），登入 Google 帳號就能用側邊欄　② 不想裝瀏覽器 → 直接開 <b>gemini.google.com 網頁版</b>，把影片網址或文章內容貼進去問，一樣讀得到 YouTube 影片　③ 手機族 → 裝 <b>Gemini App</b>，在 YouTube 影片點「分享 → 傳到 Gemini」即可
+  </div>
+  <div style="margin-top:9px; flex:0 0 auto;">
+    <a class="linkbtn" href="https://www.google.com/chrome/" target="_blank">⬇ 下載 Chrome</a>
+    <a class="linkbtn ghost" href="https://gemini.google.com" target="_blank">✦ 開啟 Gemini 網頁版</a>
+    <a class="linkbtn ghost" href="https://chatgpt.com" target="_blank">⬡ 開啟 ChatGPT</a>
+  </div>
+  <div class="footer"><span>單元一</span><span class="pn"></span></div>
+</section>
+
+<!-- 11 關鍵修正：啟動提示詞 -->
+<section class="slide dark">
+  <div class="kicker" style="position:relative;z-index:2">關鍵觀念｜本課程的 AI 使用方法</div>
+  <h2 style="color:#fff; position:relative; z-index:2;">免費版沒有 Skill？用「<span style="color:var(--orange)">啟動提示詞</span>」就好</h2>
+  <div class="center" style="position:relative;z-index:2">
+    <div style="display:flex; gap:18px;">
+      <div style="flex:1; background:rgba(255,255,255,.06); border:1.5px solid var(--line); border-radius:12px; padding:20px 24px;">
+        <h3 style="color:#F08080; font-size:19px; margin-bottom:10px;">❌ 免費版的限制</h3>
+        <p style="font-size:16px; line-height:1.8; color:#C7D2DE;">免費版 ChatGPT 無法建立自訂 GPT 助理；<br>Gemini 的 Gem／Skill 建立與安裝<br>對一般使用者也有門檻，設定容易卡關。</p>
+      </div>
+      <div style="flex:1.2; background:rgba(242,140,40,.12); border:2px solid var(--orange); border-radius:12px; padding:20px 24px;">
+        <h3 style="color:var(--orange); font-size:19px; margin-bottom:10px;">✔ 解法：對話第一句貼「啟動提示詞」</h3>
+        <p style="font-size:16px; line-height:1.8; color:#EAF0F6;">只要在<b style="color:var(--orange2)">對話開頭</b>貼上設計好的提示詞，整段對話 AI 就會照這個角色與規則運作——效果與專屬助理幾乎相同，免費版就能用。</p>
+      </div>
+    </div>
+    <div style="margin-top:18px; background:rgba(255,255,255,.05); border:1.5px solid var(--line); border-radius:12px; padding:14px 22px;">
+      <p style="font-size:15.5px; line-height:1.8; color:#C7D2DE;">📌 使用規則：① 每開<b style="color:var(--orange2)">新對話</b>先貼一次啟動提示詞 → ② 之後直接傳照片、提問即可 → ③ AI 若偏離設定，輸入「<b style="color:var(--orange2)">請回到一開始的設定</b>」拉回。本課程提供三組啟動提示詞：微運動教練、營養師衛教助理、健康管理教練。</p>
+    </div>
+  </div>
+  <div class="footer"><span>啟動提示詞</span><span class="pn"></span></div>
+</section>
+
+<!-- 12 提示詞① -->
+<section class="slide">
+  <div class="kicker">單元一｜啟動提示詞 ①</div>
+  <h2>AI 微運動教練——「<span class="accent">辦公室 3 分鐘微運動菜單</span>」</h2>
+  <div class="two">
+    <div class="prompt" style="font-size:13px; line-height:1.6;">
+      <span class="cap">啟動提示詞（複製即用）</span>
+      <button class="copybtn" data-copy="p1">複製提示詞</button>
+      <span id="p1">你是職能治療師與運動教練，整段對話請遵守此設定。
+我的狀況：【右肩頸痠痛】，工作型態：【每天久坐 8 小時、常用滑鼠】，場地：【辦公室座位／居家客廳，二選一】。
+請幫我設計「3 分鐘微運動菜單」：
+1. 共 3–4 個動作，附次數與秒數
+2. 依場地調整：辦公室＝坐在座位、不需器材；居家＝可用椅子、牆面、毛巾
+3. 用表格呈現（動作／次數秒數／訓練部位）
+4. 安全檢核：每個動作標註「不適合的族群或禁忌」，並列出出現哪些症狀要立刻停止（麻、刺、放射痛、頭暈、胸悶）
+5. 我有【舊傷／手術／懷孕／高血壓等，沒有就寫無】，請先避開相關動作
+之後我回報執行狀況時，請幫我微調菜單。</span>
+    </div>
+    <div class="demo-card">
+      <span class="tagline">示範成品</span>
+      <h3>右肩頸救援・3 分鐘微運動</h3>
+      <ul>
+        <li>下巴後收（收下巴）×10 下</li>
+        <li>肩胛後夾 5 秒 ×8 下</li>
+        <li>上斜方肌伸展 左右各 20 秒</li>
+        <li>胸椎旋轉伸展 左右各 5 下</li>
+      </ul>
+      <p style="font-size:13.5px; color:#7A5E36; margin-top:10px;">💡 把【】換成你的痛點與工作型態，就是你的專屬菜單；再搭配痠痛影片資料庫跟著做。</p>
+      <p style="font-size:13px; color:#8A5410; margin-top:6px;">⚠ 動作中有麻、刺、放射痛請立即停止並諮詢專業人員</p>
+    </div>
+  </div>
+  <div class="footer"><span>單元一</span><span class="pn"></span></div>
+</section>
+
+
+
+
+<!-- 13 unit2 title -->
+<section class="slide dark">
+  <div class="center" style="align-items:flex-start">
+    <div class="kicker">UNIT 2｜12:50–13:05</div>
+    <h1 style="font-size:50px">外食族的 AI 營養解密</h1>
+    <p style="font-size:21px; margin-top:18px; color:#C7D2DE; position:relative; z-index:2;">拍一張照，AI 營養師幫你看懂三大營養素與熱量比例</p>
+  </div>
+  <div class="footer"><span>單元二</span><span class="pn"></span></div>
+</section>
+
+<!-- 14 拍照技巧 -->
+<section class="slide">
+  <div class="kicker">單元二｜拍照技巧</div>
+  <h2>拍出 AI 看得懂的餐點照：<span class="accent">正上方＋45°</span></h2>
+  <div class="cards c3">
+    <div class="card"><span class="ic">🍽️</span><h3>① 整餐入鏡</h3><p>碗盤不要重疊，也不要裁掉飲料、醬料。</p></div>
+    <div class="card"><span class="ic">⬇️</span><h3>② 90° 正上方</h3><p>看食物面積、種類與各自占比。</p></div>
+    <div class="card"><span class="ic">📐</span><h3>③ 再拍 45°</h3><p>補足碗深、堆疊高度與份量線索。</p></div>
+    <div class="card"><span class="ic">💳</span><h3>④ 放已知尺寸</h3><p>空白標準卡、小尺或已量過的餐具當比例尺。</p></div>
+    <div class="card"><span class="ic">💡</span><h3>⑤ 光線充足</h3><p>避免昏暗、濾鏡、強烈色偏。</p></div>
+    <div class="card"><span class="ic">🔁</span><h3>⑥ 吃前＋吃後</h3><p>各拍一張，才知道實際吃掉多少。</p></div>
+  </div>
+  <div class="notice">照片只能協助估算，不能取代秤重；若只能拍一張，優先正上方。</div>
+  <div class="footer"><span>單元二</span><span class="pn"></span></div>
+</section>
+
+<!-- 15 提示詞② -->
+<section class="slide">
+  <div class="kicker">單元二｜啟動提示詞 ②</div>
+  <h2>AI 營養師衛教助理——<span class="accent">先建 Profile 卡，再開始記錄</span></h2>
+  <div class="two">
+    <div class="prompt" style="font-size:13.8px; line-height:1.62;">
+      <span class="cap">啟動提示詞（複製即用）</span>
+      <button class="copybtn" data-copy="p2">複製提示詞</button>
+      <span id="p2">你是營養師衛教助理。我想從今天開始記錄飲食。
+請先不要急著給建議，分批詢問必要資料，幫我建立一張「已確認的飲食紀錄基本檔案」；不知道的項目可以先寫不知道，不要自行補值。
+之後每次我傳照片或文字時，請用同一格式整理：
+1. 我吃了什麼與大約份量
+2. 熱量、蛋白質、碳水與脂肪的數值或合理範圍
+3. 資料來源、可信度與仍需補充的資訊
+4. 只給 1–2 個容易做到的提醒
+若是品牌商品，先核對品牌、完整品名、口味、規格與實際吃掉的份量；我提供的營養標示優先。
+這是一般健康紀錄，不取代醫療診斷。</span>
+    </div>
+    <div>
+      <div class="chat" style="gap:9px">
+        <div class="bubble user">📷（上傳排骨便當照）幫我分析營養與熱量比例</div>
+        <div class="bubble ai" style="max-width:100%">
+          <b>估計總熱量約 850–950 kcal</b>
+          <div class="bar"><span class="lab">醣類</span><div class="track"><div class="fill" style="width:55%;background:#F2B84B"></div></div><span class="val">55%</span></div>
+          <div class="bar"><span class="lab">脂肪</span><div class="track"><div class="fill" style="width:30%;background:#E07856"></div></div><span class="val">30%</span></div>
+          <div class="bar"><span class="lab">蛋白質</span><div class="track"><div class="fill" style="width:15%;background:#2E9E6B"></div></div><span class="val">15%</span></div>
+          蛋白質偏低、油脂偏高：<b>炸排骨換滷雞腿</b>（去皮）、白飯減 1/3、加一份燙青菜。
+        </div>
+        <div class="bubble user">便利商店解決晚餐呢？</div>
+        <div class="bubble ai"><b>雞胸肉沙拉＋地瓜＋無糖豆漿</b>（約 550 kcal、蛋白質 35g）</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>單元二</span><span class="pn"></span></div>
+</section>
+
+<!-- 16 營養資料庫 -->
+<section class="slide">
+  <div class="kicker">單元二｜教學資源</div>
+  <h2><span class="accent">營養影片學習資料庫</span>——24 個常見營養問題</h2>
+  <p class="sub">營養師／醫師／醫院頻道影片，搜尋、篩選、跟著學（減重飲食法・疾病飲食・營養素・族群與生活）</p>
+  <div class="steps">
+    <div class="step"><div class="no">1</div><div><h4>開啟資料庫、搜尋主題</h4><p>例：減重、低 GI、蛋白質、腎臟——先建立正確觀念，再實際調整飲食。</p></div></div>
+    <div class="step"><div class="no">2</div><div><h4>用 Gemini 快速學習影片知識</h4><p>「傳到 Gemini」／「開啟 Gemini」一鍵帶入提示詞；或用 Chrome「問問 Gemini」直接讀影片內容問重點。</p></div></div>
+    <div class="step"><div class="no">3</div><div><h4>轉成個人行動</h4><p>請 AI 把觀念轉譯成「明天午餐就能做的 3 個改變」；慢性病者請先與醫師或營養師討論。</p></div></div>
+  </div>
+  <div style="margin-top:12px">
+    <a class="linkbtn" href="https://shiny-starburst-afbf2d.netlify.app" target="_blank">🥗 開啟營養影片資料庫</a>
+    <span style="font-size:13px;color:#8494A2">shiny-starburst-afbf2d.netlify.app</span>
+  </div>
+  <div class="footer"><span>單元二</span><span class="pn"></span></div>
+</section>
+
+
+<!-- 產出提示詞包 -->
+<section class="slide">
+  <div class="kicker">單元二｜產出提示詞包（資料庫查完、飲食建議確認後使用）</div>
+  <h2>飲食檢核 → <span class="accent">生圖・PDF・網頁</span>一次搞定</h2>
+  <div class="pk">
+    <div class="prompt">
+      <span class="cap">🖼 生圖提示詞</span>
+      <button class="copybtn" data-copy="u2a">複製提示詞</button>
+      <span id="u2a">幫我製作衛教圖片，A4 直式，對象：外食族上班族，主題：【我的外食飲食檢核卡】，風格：繪本風、清新配色，內容以分格＋圖示呈現：每日飲水量勾選格、三餐外食選擇原則與替換建議（來自 AI 營養師衛教助理與營養影片資料庫）：【貼上你的內容】，附大標題，文字要大而清楚。</span>
+    </div>
+    <div class="prompt">
+      <span class="cap">📱 桌布版提示詞（接續同一對話貼上）</span>
+      <button class="copybtn" data-copy="w2">複製提示詞</button>
+      <span id="w2">請把剛剛的飲食檢核內容，改做成兩張桌布：① 手機桌布 9:16 直式，上方留空給時鐘、下方放每日飲水與外食三原則 ② 電腦桌布 16:9 橫式，內容靠左、右側留空給桌面圖示。字要大、對比清楚。</span>
+    </div>
+    <div class="prompt">
+      <span class="cap">📄 PDF 提示詞</span>
+      <button class="copybtn" data-copy="u2b">複製提示詞</button>
+      <span id="u2b">請將我的飲食紀錄 Profile 卡與每日檢核表，排版為一頁 A4 圖文版面：上方是我的外食選擇原則，中間是每日檢核表（早餐／午餐／晚餐／點心／飲水量勾選格），下方放 1–2 個容易做到的提醒；排好後我會複製到文件匯出成 PDF。</span>
+    </div>
+    <div class="prompt">
+      <span class="cap">🌐 網頁提示詞</span>
+      <button class="copybtn" data-copy="u2c">複製提示詞</button>
+      <span id="u2c">請幫我製作一個單一 HTML 檔案的網頁（CSS、JS 寫在同一檔案內），主題：【我的每日飲食檢核表】，內容：【貼上你的檢核項目】，需求：手機好閱讀、每項可勾選並顯示今日完成度、附「營養影片資料庫」連結按鈕（https://shiny-starburst-afbf2d.netlify.app），完成後給我完整程式碼，我會存成 index.html 上架到 Netlify。</span>
+    </div>
+  </div>
+  <div class="footer"><span>單元二</span><span class="pn"></span></div>
+</section>
+
+<!-- 17 unit3 title -->
+<section class="slide dark">
+  <div class="center" style="align-items:flex-start">
+    <div class="kicker">UNIT 3｜13:05–13:15</div>
+    <h1 style="font-size:50px">健康迷思與數據轉譯</h1>
+    <p style="font-size:21px; margin-top:18px; color:#C7D2DE; position:relative; z-index:2;">健檢報告拍照分析＋AI 健康管理教練，把紅字變成行動清單</p>
+  </div>
+  <div class="footer"><span>單元三</span><span class="pn"></span></div>
+</section>
+
+<!-- 18 健檢分析 -->
+<section class="slide">
+  <div class="kicker">單元三</div>
+  <h2>健檢報告<span class="accent">拍照分析</span>三步驟</h2>
+  <p class="sub">紅字看不懂？讓 AI 幫你把數據翻譯成聽得懂的行動建議</p>
+  <div class="steps">
+    <div class="step"><div class="no">1</div><div><h4>遮蔽個資再拍照</h4><p>先遮住姓名、身分證字號、病歷號等個人資料，只保留檢驗項目與數值。</p></div></div>
+    <div class="step"><div class="no">2</div><div><h4>上傳＋指定角色</h4><p>「你是健康管理師，請幫我判讀這份健檢報告，說明哪些數值需要注意、代表什麼意義。」</p></div></div>
+    <div class="step"><div class="no">3</div><div><h4>追問生活對策</h4><p>「膽固醇偏高，從飲食、運動、作息各給我 2 個具體改善方法。」把紅字變成行動清單。</p></div></div>
+  </div>
+  <div class="notice">⚠ AI 判讀僅供健康管理參考，不能取代醫師診斷；紅字請回診由醫師結合病史、用藥一起判讀。</div>
+  <div class="footer"><span>單元三</span><span class="pn"></span></div>
+</section>
+
+<!-- 19 提示詞③＋慢性病資料庫 -->
+<section class="slide">
+  <div class="kicker">單元三｜啟動提示詞 ③＋教學資源</div>
+  <h2>AI 健康管理教練——<span class="accent">有依據，才算專業建議</span></h2>
+  <div class="two">
+    <div class="prompt" style="font-size:13.8px; line-height:1.62;">
+      <span class="cap">啟動提示詞（複製即用）</span>
+      <button class="copybtn" data-copy="p3">複製提示詞</button>
+      <span id="p3">你是健康管理教練，整段對話請遵守此設定：
+1. 我上傳健檢報告照片時（個資已遮蔽），請判讀哪些數值需要注意、代表什麼意義
+2. 我提出健康迷思或網路說法時，請依實證資料查證，說明可信度並附出處
+3. 建議請轉譯成聽得懂、做得到的行動清單（飲食、運動、作息各 1–2 項）
+4. 資訊不足時先問我，不要自行補值；不確定就說不確定
+5. 你的建議僅供健康管理參考；異常數值與用藥請提醒我回診由醫師判斷</span>
+    </div>
+    <div class="card" style="align-self:stretch; display:flex; flex-direction:column; justify-content:center;">
+      <span class="ic">🩺</span>
+      <h3>慢性病與健檢問題影片學習資料庫</h3>
+      <p>28 種常見慢性病與健檢紅字問題 × 專業醫師／醫院頻道影片（三高代謝、肝膽腸胃、腎臟泌尿、心血管、內分泌血液、胸腔睡眠、癌症篩檢）。先看衛教了解檢驗意義，再學生活調整方式。</p>
+      <div style="margin-top:12px"><a class="linkbtn" href="https://jade-baklava-14f952.netlify.app" target="_blank">開啟資料庫</a></div>
+      <p style="font-size:12.5px;margin-top:8px;color:#8494A2">jade-baklava-14f952.netlify.app</p>
+    </div>
+  </div>
+  <div class="footer"><span>單元三</span><span class="pn"></span></div>
+</section>
+
+<!-- 20 迷思示範 -->
+<section class="slide">
+  <div class="kicker">單元三｜迷思破解示範</div>
+  <h2>讓 AI 教練<span class="accent">查證網路說法</span></h2>
+  <div class="vs">
+    <div class="m">
+      <h3>❌ 網路迷思</h3>
+      <ul>
+        <li>「戒掉所有澱粉，兩週瘦 5 公斤！」——掉的多是水分與肌肉，復食極易復胖</li>
+        <li>「運動會磨損膝蓋」——人體組織是活的、具有適應能力，越用不會越磨損</li>
+        <li>「痠痛只是局部勞損」——慢性痠痛其實與代謝、發炎有關，是全身性問題</li>
+      </ul>
+    </div>
+    <div class="f">
+      <h3>✔ AI 教練轉譯（有依據）</h3>
+      <ul>
+        <li>醣類佔總熱量 50–60% 仍是建議值；與其戒斷，不如「換好澱粉」：白飯換糙米、含糖飲換無糖</li>
+        <li>皮拉提斯、有氧、瑜伽、太極對慢性下背痛效果相近——規律執行＋適合自己最關鍵</li>
+        <li>想擺脫痠痛：除了動，還要管理體重、血糖、睡眠與發炎（hs-CRP）</li>
+      </ul>
+    </div>
+  </div>
+  <div class="src">來源：國健署飲食指南；PMID 29053873 運動型態比較；Cureus 2025 代謝性發炎回顧。</div>
+  <div class="footer"><span>單元三</span><span class="pn"></span></div>
+</section>
+
+
+<!-- 產出提示詞包 -->
+<section class="slide">
+  <div class="kicker">單元三｜產出提示詞包（資料庫查完、查證結果確認後使用）</div>
+  <h2>迷思衛教單張 → <span class="accent">生圖・PDF・網頁</span>一次搞定</h2>
+  <div class="pk">
+    <div class="prompt">
+      <span class="cap">🖼 生圖提示詞</span>
+      <button class="copybtn" data-copy="u3a">複製提示詞</button>
+      <span id="u3a">幫我製作衛教圖片，A4 直式，對象：一般上班族，主題：【健康迷思破解——(填入迷思標題)】，風格：繪本風、清新配色，版面採左「❌ 迷思」右「✔ 事實」對照設計，內容（來自 AI 健康管理教練查證結果與慢性病資料庫影片）：【貼上你的查證內容】，附大標題，文字要大而清楚。</span>
+    </div>
+    <div class="prompt">
+      <span class="cap">📱 桌布版提示詞（接續同一對話貼上）</span>
+      <button class="copybtn" data-copy="w3">複製提示詞</button>
+      <span id="w3">請把這則迷思破解，改做成兩張桌布：① 手機桌布 9:16 直式，上方留空給時鐘 ② 電腦桌布 16:9 橫式，內容靠左、右側留空給桌面圖示。用「❌ 迷思／✔ 事實」一句話對照，字要大、一眼看懂。</span>
+    </div>
+    <div class="prompt">
+      <span class="cap">📄 PDF 提示詞</span>
+      <button class="copybtn" data-copy="u3b">複製提示詞</button>
+      <span id="u3b">請將這則健康迷思查證結果，排版為一頁 A4 衛教單張：迷思 vs 事實對照區、實證出處小字、3 個做得到的行動建議（飲食／運動／作息各 1 個），最後加一行「異常數值請回診由醫師判讀」；排好後我會複製到文件匯出成 PDF。</span>
+    </div>
+    <div class="prompt">
+      <span class="cap">🌐 網頁提示詞</span>
+      <button class="copybtn" data-copy="u3c">複製提示詞</button>
+      <span id="u3c">請幫我製作一個單一 HTML 檔案的網頁（CSS、JS 寫在同一檔案內），主題：【健康迷思新知專頁】，內容：【貼上你的查證內容】，需求：迷思／事實以卡片對照呈現、附實證出處連結與「慢性病與健檢資料庫」連結按鈕（https://jade-baklava-14f952.netlify.app），完成後給我完整程式碼，我會存成 index.html 上架到 Netlify。</span>
+    </div>
+  </div>
+  <div class="footer"><span>單元三</span><span class="pn"></span></div>
+</section>
+
+
+<!-- 持續追蹤：21天監督教練 -->
+<section class="slide">
+  <div class="kicker">持續追蹤 ①｜健康目標總是無法持之以恆？</div>
+  <h2>讓 AI 當你的「<span class="accent">21 天監督教練</span>」</h2>
+  <div class="pk">
+    <div class="prompt">
+      <span class="cap">① 設定目標與追蹤規則（開新對話第一句）</span>
+      <button class="copybtn" data-copy="tr1">複製提示詞</button>
+      <span id="tr1">你是我的健康管理教練，接下來 21 天請持續扮演這個角色。
+我的目標：【3 個月減 4 公斤／改善下背痛，擇一填寫】；可執行時間：【每天 15 分鐘】；限制：【三餐外食、常加班】。
+請幫我：1. 把目標拆成每週可量化的小目標 2. 設計每日 3 個必做行動（飲食 1、運動 1、作息 1）3. 設計一個我每天只要回報 3 個數字的簡短回報格式 4. 說明我做不到時你會怎麼調整目標，而不是責備我。</span>
+    </div>
+    <div class="prompt">
+      <span class="cap">② 每日回報（每天貼一次，30 秒完成）</span>
+      <button class="copybtn" data-copy="tr2">複製提示詞</button>
+      <span id="tr2">今日回報：飲水【1500ml】、微運動【2 次】、外食【排骨便當、無糖豆漿】、睡眠【6 小時】。
+請用 5 行內回覆：1. 今天達成率 2. 一句具體肯定 3. 明天唯一要改的一件事 4. 若我連續 2 天沒做到，直接把目標調小再給我。</span>
+    </div>
+    <div class="prompt">
+      <span class="cap">③ 每週檢討（週日花 3 分鐘）</span>
+      <button class="copybtn" data-copy="tr3">複製提示詞</button>
+      <span id="tr3">這是我這週的回報紀錄：【貼上 7 天紀錄】。
+請幫我：1. 用表格統計達成率與趨勢 2. 找出最常失敗的時段與原因 3. 下週只調整一件事（不要一次改很多）4. 產出下週「健康應援卡」的圖卡內容。</span>
+    </div>
+  </div>
+  <div class="footer"><span>持續追蹤</span><span class="pn"></span></div>
+</section>
+
+
+<!-- 持續追蹤：定時提醒設定 -->
+<section class="slide">
+  <div class="kicker">持續追蹤 ②｜讓 AI 主動來找你</div>
+  <h2>定時提醒怎麼設定？<span class="accent">運動也可以</span></h2>
+  <p class="sub">不用自己記得打開 AI——讓它每天到點主動提醒你起來動</p>
+  <div class="cards c3" style="flex:0 1 auto">
+    <div class="card">
+      <span class="ic">✦</span><h3>Gemini「排定的動作」<span style="font-size:12.5px;color:var(--ok)">（免費帳戶陸續開放）</span></h3>
+      <p style="font-size:14px">個人 Google 帳戶登入 gemini.google.com，先到「設定與說明」確認已開啟<b>保留活動記錄</b>；接著直接輸入含時間與頻率的指令即可建立，一次最多 10 個。日後在「設定與說明 →<b>排定的動作</b>」可編輯、暫停或刪除。</p>
+    </div>
+    <div class="card">
+      <span class="ic">⬡</span><h3>ChatGPT「排程任務」<span style="font-size:12.5px;color:var(--bad)">（需付費方案）</span></h3>
+      <p style="font-size:14px">免費版<b>不支援</b>；Go／Plus／Business／Pro 才有，上限依序為 3／5／10／15 個。直接對 ChatGPT 說「每天 10 點提醒我…」即可建立，可選推播或 Email 通知。注意：<b>排程任務不能搭配 GPTs 助理</b>。</p>
+    </div>
+    <div class="card" style="background:#FDF3E3;border-color:var(--orange)">
+      <span class="ic">⏰</span><h3>零成本替代方案（推薦）</h3>
+      <p style="font-size:14px">① 手機鬧鐘／Google 行事曆設每日重複，標題直接貼 AI 產的提醒文案<br>② 把健康應援卡<b>設成手機桌布</b>，解鎖就看到<br>③ 電腦用 Chrome 分頁固定資料庫網頁，起身時點開跟著做</p>
+    </div>
+  </div>
+  <div style="margin-top:12px">
+    <div class="prompt">
+      <span class="cap">排程指令範例（貼給 Gemini 或付費版 ChatGPT）</span>
+      <button class="copybtn" data-copy="rm1">複製提示詞</button>
+      <span id="rm1">請幫我設定排程提醒：每個工作日的 10:00、14:30、16:30 提醒我起身活動 3 分鐘。
+提醒內容請每次不同，從我的微運動菜單中隨機挑一個動作，附上次數與秒數，語氣輕鬆像朋友提醒，20 字以內。
+另外每週日 20:00 提醒我回報這週的執行狀況。</span>
+    </div>
+  </div>
+  <div class="footer"><span>持續追蹤</span><span class="pn"></span></div>
+</section>
+
+<!-- 21 實作任務 -->
+<section class="slide">
+  <div class="kicker">實作任務｜13:15–13:20 說明・W4–W5 執行</div>
+  <h2>辦公室健康應援卡——<span class="accent">三選一</span>，AI 生圖或 PDF 圖文檔案</h2>
+  <div class="cards c3" style="flex:0 1 auto; margin-bottom:12px;">
+    <div class="card"><span class="ic">🤸</span><h3>A. 微運動菜單及提醒</h3><p>用啟動提示詞①＋痠痛影片資料庫，產出客製化 3 分鐘微運動菜單與提醒。</p></div>
+    <div class="card"><span class="ic">🥗</span><h3>B. 飲食檢核及提醒</h3><p>用啟動提示詞②，建立個人外食選擇原則與每日飲食、飲水檢核表。</p></div>
+    <div class="card"><span class="ic">💡</span><h3>C. 健康迷思新知衛教單張</h3><p>用啟動提示詞③查證一則迷思，轉譯成正確新知單張與同仁分享。</p></div>
+  </div>
+  <div class="prompt" style="flex:0 1 auto">
+    <span class="cap">產出圖卡的生圖提示詞範例（複製即用）</span>
+    <button class="copybtn" data-copy="p4">複製提示詞</button>
+    <span id="p4">幫我製作衛教圖片，A4 大小，對象：辦公室上班族，主題：【我的 3 分鐘微運動菜單】，風格：繪本風，內容用清楚的分格與圖示呈現，附標題與簡短提醒文字。</span>
+  </div>
+    <div class="prompt">
+      <span class="cap">📱 桌布版提示詞（接續同一對話貼上）</span>
+      <button class="copybtn" data-copy="w4">複製提示詞</button>
+      <span id="w4">請把我的健康應援卡再做成手機桌布版：9:16 直式，上方留空給時鐘與通知、下方避開 App 列，只保留最關鍵的 3–4 行內容，字大、對比高，設成桌布後解鎖就看得到。</span>
+    </div>
+  <div class="notice" style="margin-top:10px">也可以請 AI「將以上內容排版為一頁 A4 圖文版面」→ 匯出／列印成 PDF（不用做簡報）。完成後於社團展示、開放票選，人氣作品頒發禮券獎勵 🎁（評選參考：實用性・客製化程度・視覺呈現）</div>
+  <div class="footer"><span>實作任務</span><span class="pn"></span></div>
+</section>
+
+<!-- 22 生圖教學 -->
+<section class="slide">
+  <div class="kicker">產出教學 ①｜用 ChatGPT／Gemini 產出圖片</div>
+  <h2>AI 生圖四步驟——<span class="accent">說得清楚，圖就漂亮</span></h2>
+  <div class="two">
+    <div class="steps" style="gap:10px">
+      <div class="step"><div class="no">1</div><div><h4>先把內容做好</h4><p>先用啟動提示詞產出菜單／檢核表的「文字內容」，確認正確後再生圖。</p></div></div>
+      <div class="step"><div class="no">2</div><div><h4>套用生圖提示詞公式</h4><p><code>用途＋尺寸＋對象＋主題＋風格＋內容呈現方式</code>，一次講清楚。</p></div></div>
+      <div class="step"><div class="no">3</div><div><h4>對話式修改</h4><p>不滿意不用重來：「標題加大」「改成直式」「文字對比再清楚一點」——直接用中文修。</p></div></div>
+      <div class="step"><div class="no">4</div><div><h4>下載使用</h4><p>點圖片下載 PNG；中文字若出現錯字，請 AI「保留版面、只修正文字」再輸出一次。</p></div></div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:12px; align-self:center;">
+      <div class="prompt" style="font-size:14px; line-height:1.62;">
+        <span class="cap">生圖提示詞範例（複製即用）</span>
+        <button class="copybtn" data-copy="p5">複製提示詞</button>
+        <span id="p5">幫我製作衛教圖片，A4 直式，對象：辦公室上班族，主題：【我的辦公室健康應援卡——3 分鐘微運動菜單】，風格：繪本風、清新配色，內容以分格＋圖示呈現以下動作與提醒：【貼上你的菜單內容】，附大標題與一句鼓勵標語，文字要大而清楚。</span>
+      </div>
+      <div class="prompt" style="font-size:14px; line-height:1.62;">
+        <span class="cap">📱 桌布版提示詞（接續同一對話貼上）</span>
+        <button class="copybtn" data-copy="w5">複製提示詞</button>
+        <span id="w5">同樣內容請再各做一版桌布：① 手機桌布 9:16 直式（上方留空給時鐘、避開下方 App 列）② 電腦桌布 16:9 橫式（內容靠左，右側留空給桌面圖示）。字級放大、去掉細小說明文字。</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>產出教學</span><span class="pn"></span></div>
+</section>
+
+<!-- 23 PDF 教學 -->
+<section class="slide">
+  <div class="kicker">產出教學 ②｜產出 PDF 圖文檔案</div>
+  <h2>不會排版也能出 <span class="accent">PDF</span>——三條路任選</h2>
+  <div class="cards c3">
+    <div class="card">
+      <span class="ic">📄</span><h3>A. AI 排版 → 文件匯出</h3>
+      <p>對 AI 說「請將以上內容排版為一頁 A4 圖文版面」→ 複製到 Google 文件／Word → 檔案 → 下載／另存為 <b>PDF</b>。最簡單，適合文字為主的檢核表。</p>
+    </div>
+    <div class="card">
+      <span class="ic">🖨️</span><h3>B. AI 產網頁 → 列印存 PDF</h3>
+      <p>請 AI「把內容做成一頁漂亮的 HTML 網頁」→ 存成 .html 用瀏覽器開啟 → <b>Ctrl／⌘＋P</b> → 目的地選「另存為 PDF」。版面最精緻。</p>
+    </div>
+    <div class="card">
+      <span class="ic">🎨</span><h3>C. Canva 設計 → 下載 PDF</h3>
+      <p>Canva 選 A4 文件範本 → 貼上 AI 產出的內容、換圖示 → 右上角<b>分享 → 下載 → PDF</b>。適合想再手動微調視覺的人。</p>
+    </div>
+  </div>
+  <div class="notice">小提醒：三條路的「內容」都來自你的啟動提示詞對話——先把內容對，再讓版面美。</div>
+  <div class="footer"><span>產出教學</span><span class="pn"></span></div>
+</section>
+
+<!-- 24 Canva 魔法工作室 -->
+<section class="slide">
+  <div class="kicker">產出教學 ③｜CANVA 魔法工作室修圖</div>
+  <h2>Canva <span class="accent">魔法圖層與 AI 修圖</span>——把圖卡變專業</h2>
+  <div class="cards c4">
+    <div class="card"><span class="ic">🪄</span><h3>魔法圖層</h3><p>首頁點「魔法圖層」上傳圖片，AI 自動把主體、文字、背景拆成可個別移動、縮放的圖層，直接重新排版。</p></div>
+    <div class="card"><span class="ic">🧽</span><h3>魔法橡皮擦</h3><p>編輯照片 → 選「魔法橡皮擦」，塗抹掉雜物、路人、浮水印，背景自動補齊。</p></div>
+    <div class="card"><span class="ic">✏️</span><h3>魔法編輯</h3><p>圈選要改的區域，輸入文字描述（例：把馬克杯換成水壺），AI 直接改圖。</p></div>
+    <div class="card"><span class="ic">✂️</span><h3>移除背景</h3><p>一鍵去背，把人像或物件疊到你的健康應援卡上，做出專屬視覺。</p></div>
+  </div>
+  <div class="steps" style="flex:0 1 auto; margin-top:10px;">
+    <div class="step"><div class="no">→</div><div><h4>實作動線</h4><p>AI 生圖產出底圖 → 上傳 Canva（<a href="https://www.canva.com" target="_blank" style="color:var(--orange);font-weight:700;text-decoration:none">canva.com</a> 免費版即可）→ 魔法圖層拆版／橡皮擦清雜物／補上你的名字與標語 → 分享 → 下載 PNG 或 PDF。</p></div></div>
+  </div>
+  <div class="footer"><span>產出教學</span><span class="pn"></span></div>
+</section>
+
+<!-- 25 網頁製作與上架 -->
+<section class="slide">
+  <div class="kicker">產出教學 ④｜製作網頁＋上架</div>
+  <h2>做一個自己的<span class="accent">健康網頁</span>——五分鐘上架全流程</h2>
+  <div class="two">
+    <div class="steps" style="gap:10px">
+      <div class="step"><div class="no">1</div><div><h4>請 AI 產出單一 HTML 檔</h4><p>用右邊提示詞請 ChatGPT／Gemini 產出<b>單一檔案</b>的網頁 → 複製程式碼存成 <code>index.html</code>（記事本／文字編輯即可）。</p></div></div>
+      <div class="step"><div class="no">2</div><div><h4>Netlify 免費上架</h4><p>登入 <a href="https://www.netlify.com" target="_blank" style="color:var(--orange);font-weight:700;text-decoration:none">netlify.com</a> → Add new project → <b>把 index.html（或資料夾）直接拖曳進去</b>（Netlify Drop）→ 幾秒鐘就取得公開網址。</p></div></div>
+      <div class="step"><div class="no">3</div><div><h4>改名＋分享</h4><p>Site settings → Change site name 改成好記的名稱；把網址做成 QR code 貼在座位旁，同事掃了就能看。要更新內容，重新拖一次新檔案即可。</p></div></div>
+    </div>
+    <div>
+      <div class="prompt">
+        <span class="cap">網頁生成提示詞（複製即用）</span>
+        <button class="copybtn" data-copy="p6">複製提示詞</button>
+        <span id="p6">請幫我製作一個單一 HTML 檔案的網頁（CSS、JS 都寫在同一個檔案內），主題：【我的辦公室健康應援卡】，內容包含：【貼上你的微運動菜單／飲食檢核表】，需求：手機與電腦都好閱讀、清新配色、附勾選功能的每日檢核清單，完成後給我完整程式碼。</span>
+      </div>
+      <div class="notice" style="margin-top:10px">進階：Netlify 也內建 AI Agent——直接用文字描述想要的網站，讓它幫你生成並部署；本課的四個影片資料庫網頁，就是這樣做出來的。</div>
+    </div>
+  </div>
+  <div class="footer"><span>產出教學</span><span class="pn"></span></div>
+</section>
+
+<!-- 22 資源總覽 -->
+<section class="slide">
+  <div class="kicker">RESOURCES</div>
+  <h2>課程資源<span class="accent">總覽</span>——課後帶著走</h2>
+  <div class="center">
+    <table class="tb" style="font-size:14.5px">
+      <tr><th style="width:280px">資源</th><th>說明</th><th style="width:330px">連結</th></tr>
+      <tr><td>🎬 痠痛影片資料庫</td><td>46 種常見痠痛問題示範影片</td><td><a href="https://mattsue1003.github.io/bodysoreproblemlearn/" target="_blank">mattsue1003.github.io/bodysoreproblemlearn</a></td></tr>
+      <tr><td>💪 上班族運動影片資料庫</td><td>桌邊微運動、辦公室伸展、居家肌力</td><td><a href="https://mattsue1003.github.io/office-worker-workouts/" target="_blank">mattsue1003.github.io/office-worker-workouts</a></td></tr>
+      <tr><td>🥗 營養影片學習資料庫</td><td>24 個常見營養問題主題影片</td><td><a href="https://shiny-starburst-afbf2d.netlify.app" target="_blank">shiny-starburst-afbf2d.netlify.app</a></td></tr>
+      <tr><td>🩺 慢性病與健檢資料庫</td><td>28 種慢性病與健檢紅字問題影片</td><td><a href="https://jade-baklava-14f952.netlify.app" target="_blank">jade-baklava-14f952.netlify.app</a></td></tr>
+      <tr><td>🎤 Typeless 語音輸入</td><td>說話自動變成通順文字，跟 AI 對話更快</td><td><a href="https://www.typeless.com/?via=a98a08" target="_blank">typeless.com</a></td></tr>
+      <tr><td>🎨 Canva／Netlify</td><td>圖卡設計・一頁式網頁部署</td><td><a href="https://www.canva.com" target="_blank">canva.com</a>・<a href="https://www.netlify.com" target="_blank">netlify.com</a></td></tr>
+      <tr><td>📖 《讓你健康不失智的體智能》</td><td>鍾孟修 著，商周出版（博客來等通路）</td><td>博客來搜尋書名</td></tr>
+      <tr><td>📱 講師 FB／LINE 社群</td><td>課後追蹤與提問</td><td><a href="https://www.facebook.com/profile.php?id=100063748491881" target="_blank">FB 粉專</a>・<a href="https://www.facebook.com/chungmenghsiu" target="_blank">FB</a>・<a href="https://line.me/ti/g2/HTz-kWvRyDZhYRKHEDjXISFfEyb3xxPlGT16hA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank">LINE 社群</a></td></tr>
+    </table>
+  </div>
+  <div class="footer"><span>課程資源</span><span class="pn"></span></div>
+</section>
+
+
+<!-- Q&A 預備頁 -->
+<section class="slide">
+  <div class="kicker">Q&A 預備｜學員課前提問延伸</div>
+  <h2>還有這些常見問題，<span class="accent">AI 也能幫你</span></h2>
+  <div class="cards c2" style="gap:14px">
+    <div class="card" style="padding:16px 20px">
+      <h3 style="font-size:17px">Q1. 肩頸痛還連帶頭痛、眼睛脹？</h3>
+      <p style="font-size:14px">上斜方肌與枕下肌群緊繃會轉移成頭痛；再加上盯螢幕眨眼變少造成眼睛乾脹。做法：微運動加入「枕下肌放鬆」＋<b>20-20-20 法則</b>（每 20 分鐘看 20 英尺外 20 秒）。提示詞加一句：「我痠痛時會伴隨頭痛與眼睛脹，請加入頸椎深層肌群與眼睛放鬆的動作。」</p>
+    </div>
+    <div class="card" style="padding:16px 20px">
+      <h3 style="font-size:17px">Q2. 膽固醇偏高、想控制體重，怎麼排計畫？</h3>
+      <p style="font-size:14px">提示詞：「我的健檢：總膽固醇【數值】、LDL【數值】、體重【】公斤。請以四週為單位排計畫，每週只改一件事，分飲食、運動、作息三欄，並列出四週後我該回診複驗哪些項目。」搭配慢性病資料庫先看懂檢驗意義。</p>
+    </div>
+    <div class="card" style="padding:16px 20px">
+      <h3 style="font-size:17px">Q3. 家中長輩的血糖控制？</h3>
+      <p style="font-size:14px">同一套方法可以用在家人身上：慢性病與健檢資料庫有糖尿病／HbA1c 專區，AI 健康管理教練提示詞把「我」改成「我 70 歲的父親，有糖尿病、正在服藥」，並務必加上「用藥與治療請遵循主治醫師」。</p>
+    </div>
+    <div class="card" style="padding:16px 20px">
+      <h3 style="font-size:17px">Q4. 跟著 AI 動會不會受傷？</h3>
+      <p style="font-size:14px">今天的微運動提示詞已內建<b>安全檢核</b>：每個動作要標註禁忌族群、並列出出現麻／刺／放射痛／頭暈／胸悶就立刻停止。再搭配資料庫的專業治療師示範影片對照動作，比只看文字安全得多。</p>
+    </div>
+  </div>
+  <div class="notice">AI 給的都是「健康管理參考」——有明確疼痛、外傷、神經症狀或健檢紅字，請找醫師或治療師實際評估。</div>
+  <div class="footer"><span>Q&A 預備</span><span class="pn"></span></div>
+</section>
+
+<!-- 23 QA -->
+<section class="slide dark">
+  <div class="center" style="align-items:flex-start">
+    <div class="kicker">Q&A｜13:20–13:30</div>
+    <h1 style="font-size:54px">感謝聆聽・Q&A 交流</h1>
+    <p style="font-size:22px; margin-top:18px; color:#C7D2DE; position:relative; z-index:2;">你的痠痛、飲食、健康迷思問題，現場解答</p>
+    <p style="font-size:17px; margin-top:36px; position:relative; z-index:2;">鍾孟修 職能治療師｜愛迪樂健康促進團隊</p>
+    <p style="font-size:15px; margin-top:8px; color:#8FA0B1; position:relative; z-index:2;">別忘了完成你的「辦公室健康應援卡」，參加票選拿禮券 🎁</p>
+    <div style="margin-top:20px; position:relative; z-index:2;">
+      <a class="linkbtn" href="https://www.facebook.com/profile.php?id=100063748491881" target="_blank">FB 粉專：鍾孟修Matt-職能治療師</a>
+      <a class="linkbtn ghost" style="background:transparent;color:var(--orange);" href="https://line.me/ti/g2/HTz-kWvRyDZhYRKHEDjXISFfEyb3xxPlGT16hA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank">LINE 社群</a>
+    </div>
+  </div>
+  <div class="footer"><span>AI 美力健康派</span><span class="pn"></span></div>
+</section>
+
+</div></div>
+
+<button id="modebtn" onclick="toggleMode()">⇅ 捲動預覽模式</button>
+<div id="nav">
+  <button onclick="prev()" aria-label="上一頁">‹</button>
+  <button onclick="next()" aria-label="下一頁">›</button>
+</div>
+<div id="pageno">1 / 35</div>
+
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  let idx = 0;
+  function show(i){
+    idx = Math.max(0, Math.min(slides.length-1, i));
+    slides.forEach((s,j)=>s.classList.toggle('active', j===idx));
+    document.getElementById('pageno').textContent = (idx+1)+' / '+slides.length;
+  }
+  function quizReveal(){ document.getElementById('quizbox').classList.add('revealed'); document.getElementById('quiznote').classList.add('shown'); }
+  function next(){ show(idx+1); }
+  function prev(){ show(idx-1); }
+  document.addEventListener('keydown', e=>{
+    if(scrollMode) return;
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)) { e.preventDefault(); next(); }
+    if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)) { e.preventDefault(); prev(); }
+    if(e.key==='Home') show(0);
+    if(e.key==='End') show(slides.length-1);
+  });
+  // 已移除點擊換頁，避免誤觸：請用方向鍵、空白鍵或右下角箭頭換頁
+  document.querySelectorAll('.copybtn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const text = document.getElementById(btn.dataset.copy).innerText;
+      navigator.clipboard.writeText(text).then(()=>{
+        const old = btn.textContent; btn.textContent = '已複製 ✔';
+        setTimeout(()=>btn.textContent=old, 1500);
+      });
+    });
+  });
+  const SPEAKER_FALLBACK = "data:image/jpeg;base64,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";
+  const spimg = document.getElementById('speakerimg');
+  if (spimg) spimg.addEventListener('error', ()=>{ spimg.src = SPEAKER_FALLBACK; }, { once:true });
+  let scrollMode = false;
+  function fit(){
+    const st = document.getElementById('stage');
+    if(scrollMode){ st.style.zoom = Math.min(innerWidth/1320, 1); return; }
+    st.style.zoom = 1;
+    const s = Math.min(innerWidth/1300, innerHeight/760);
+    st.style.transform = 'scale('+s+')';
+  }
+  function toggleMode(){
+    scrollMode = !scrollMode;
+    document.body.classList.toggle('scroll', scrollMode);
+    const btn = document.getElementById('modebtn');
+    btn.textContent = scrollMode ? '▭ 回到翻頁模式' : '⇅ 捲動預覽模式';
+    if(!scrollMode){ show(idx); }
+    fit();
+    if(scrollMode){ const tgt = slides[idx]; setTimeout(()=>tgt.scrollIntoView({block:'start'}), 50); }
+  }
+  addEventListener('resize', fit); fit();
+  slides.forEach((s,i)=>{ const p=s.querySelector('.pn'); if(p) p.textContent=(i+1)+' / '+slides.length; });
+
+  document.querySelectorAll('.slide').forEach(sl=>{
+    const txt = sl.textContent;
+    const hasPrompt = sl.querySelector('.prompt');
+    const isCanvaSlide = /魔法圖層/.test(txt);
+    if(!hasPrompt && !isCanvaSlide) return;
+    const bar = document.createElement('div');
+    bar.className = 'applinks';
+    let html = '<a class="ap g" href="https://gemini.google.com" target="_blank">✦ Gemini</a><a class="ap c" href="https://chatgpt.com" target="_blank">⬡ ChatGPT</a>';
+    if(/生圖|圖卡|衛教圖片|魔法|排版/.test(txt)) html += '<a class="ap v" href="https://www.canva.com" target="_blank">◆ Canva</a>';
+    bar.innerHTML = html;
+    sl.appendChild(bar);
+  });
+
+  const q = new URLSearchParams(location.search).get('slide');
+  if(q) show(parseInt(q,10)-1);
+</script>
+</body>
+</html>
