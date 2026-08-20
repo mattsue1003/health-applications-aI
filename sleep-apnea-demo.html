@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="睡眠呼吸中止症預防保健知識：成因、症狀、改善方式、治療選項與就醫警訊。" />
+  <meta name="theme-color" content="#0f766e" />
+  <title>睡眠呼吸中止症｜預防保健知識整理</title>
+  <style>
+    :root{
+      --bg:#f4fbfa;
+      --surface:#ffffff;
+      --surface-2:#ecf8f6;
+      --ink:#18323a;
+      --muted:#60757a;
+      --brand:#0f766e;
+      --brand-2:#14b8a6;
+      --accent:#f59e0b;
+      --danger:#e85d5d;
+      --ok:#2e9d75;
+      --line:#d8ebe8;
+      --shadow:0 18px 50px rgba(18,71,72,.12);
+      --radius:24px;
+      --max:1120px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,-apple-system,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(20,184,166,.13), transparent 32%),
+        radial-gradient(circle at 90% 8%, rgba(245,158,11,.10), transparent 28%),
+        var(--bg);
+      line-height:1.75;
+    }
+
+    a{color:inherit}
+    img,svg{max-width:100%;display:block}
+    button{font:inherit}
+
+    .container{
+      width:min(calc(100% - 32px), var(--max));
+      margin-inline:auto;
+    }
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:20;
+      backdrop-filter:blur(16px);
+      background:rgba(244,251,250,.86);
+      border-bottom:1px solid rgba(216,235,232,.85);
+    }
+
+    .nav{
+      min-height:68px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      letter-spacing:.02em;
+    }
+
+    .brand-mark{
+      width:38px;height:38px;border-radius:12px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      color:#fff;
+      box-shadow:0 8px 20px rgba(15,118,110,.2);
+    }
+
+    .nav-links{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+
+    .nav-links a{
+      text-decoration:none;
+      color:var(--muted);
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:.92rem;
+      font-weight:700;
+    }
+
+    .nav-links a:hover{
+      background:#fff;
+      color:var(--brand);
+    }
+
+    .hero{
+      padding:64px 0 34px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:44px;
+      align-items:center;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 12px;
+      border-radius:999px;
+      background:#def5f1;
+      color:var(--brand);
+      font-weight:900;
+      font-size:.9rem;
+      letter-spacing:.04em;
+    }
+
+    h1{
+      margin:18px 0 18px;
+      font-size:clamp(2.35rem,6vw,5rem);
+      line-height:1.03;
+      letter-spacing:-.045em;
+    }
+
+    .hero-lead{
+      font-size:clamp(1.05rem,2vw,1.28rem);
+      color:var(--muted);
+      max-width:690px;
+    }
+
+    .hero-points{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:24px;
+    }
+
+    .pill{
+      padding:9px 13px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid var(--line);
+      box-shadow:0 5px 16px rgba(31,90,88,.06);
+      font-weight:800;
+      font-size:.93rem;
+    }
+
+    .hero-art{
+      background:linear-gradient(155deg,#dff8f3,#fff7e7);
+      border:1px solid #dbeee9;
+      border-radius:34px;
+      padding:22px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .disclaimer{
+      margin-top:28px;
+      padding:15px 18px;
+      border-left:5px solid var(--accent);
+      background:#fff8e6;
+      border-radius:14px;
+      color:#6b5422;
+      font-size:.95rem;
+    }
+
+    section{
+      padding:48px 0;
+      scroll-margin-top:84px;
+    }
+
+    .section-head{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:24px;
+      margin-bottom:24px;
+    }
+
+    .section-head h2{
+      margin:0;
+      font-size:clamp(1.8rem,3vw,2.6rem);
+      letter-spacing:-.03em;
+      line-height:1.15;
+    }
+
+    .section-head p{
+      margin:0;
+      color:var(--muted);
+      max-width:560px;
+    }
+
+    .grid{
+      display:grid;
+      gap:18px;
+    }
+
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+
+    .card{
+      background:rgba(255,255,255,.94);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:24px;
+      box-shadow:0 10px 28px rgba(25,79,77,.07);
+    }
+
+    .icon{
+      width:48px;
+      height:48px;
+      border-radius:15px;
+      display:grid;
+      place-items:center;
+      margin-bottom:14px;
+      font-size:1.45rem;
+      background:var(--surface-2);
+    }
+
+    .card h3{
+      margin:0 0 8px;
+      font-size:1.2rem;
+    }
+
+    .card p{
+      margin:0;
+      color:var(--muted);
+    }
+
+    .split{
+      display:grid;
+      grid-template-columns:.9fr 1.1fr;
+      gap:24px;
+      align-items:stretch;
+    }
+
+    .visual-card{
+      min-height:100%;
+      border-radius:28px;
+      padding:26px;
+      background:linear-gradient(155deg,#0f766e,#134e4a);
+      color:#fff;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .visual-card h3{
+      font-size:1.6rem;
+      margin:0 0 8px;
+    }
+
+    .visual-card p{color:#d8f5ef;margin-top:0}
+
+    .ahi{
+      display:grid;
+      gap:12px;
+    }
+
+    .ahi-row{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      display:grid;
+      grid-template-columns:100px 1fr auto;
+      gap:14px;
+      align-items:center;
+    }
+
+    .ahi-label{font-weight:900}
+    .bar{
+      height:10px;
+      border-radius:999px;
+      background:#e8efee;
+      overflow:hidden;
+    }
+    .bar > span{
+      display:block;height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--brand-2),var(--brand));
+    }
+
+    .treatment{
+      position:relative;
+      overflow:hidden;
+    }
+
+    .treatment::after{
+      content:"";
+      position:absolute;
+      width:140px;height:140px;
+      border-radius:50%;
+      background:rgba(20,184,166,.08);
+      right:-50px;top:-50px;
+    }
+
+    .tag{
+      display:inline-flex;
+      padding:5px 9px;
+      border-radius:999px;
+      background:#ecf8f6;
+      color:var(--brand);
+      font-size:.78rem;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+
+    .warning{
+      background:linear-gradient(145deg,#fff6f6,#fff);
+      border-color:#f2d6d6;
+    }
+
+    .warning .icon{background:#ffe8e8}
+
+    .checklist{
+      margin:0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:12px;
+    }
+
+    .checklist li{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      padding:14px 0;
+      border-bottom:1px solid var(--line);
+    }
+
+    .checklist li:last-child{border-bottom:0}
+    .check{
+      flex:0 0 26px;
+      width:26px;height:26px;
+      border-radius:8px;
+      display:grid;place-items:center;
+      background:#dcf7ee;
+      color:var(--ok);
+      font-weight:900;
+    }
+
+    .myth{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+
+    .myth-box{
+      border-radius:20px;
+      padding:20px;
+      border:1px solid var(--line);
+    }
+    .myth-box.bad{background:#fff2f2}
+    .myth-box.good{background:#effaf6}
+    .myth-box strong{display:block;margin-bottom:6px}
+
+    .accordion{
+      display:grid;
+      gap:12px;
+    }
+
+    .acc{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      overflow:hidden;
+    }
+
+    .acc button{
+      width:100%;
+      padding:18px 20px;
+      background:none;
+      border:0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      text-align:left;
+      color:var(--ink);
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .acc button span:last-child{
+      transition:.25s ease;
+      color:var(--brand);
+      font-size:1.25rem;
+    }
+
+    .acc.open button span:last-child{transform:rotate(45deg)}
+
+    .acc-panel{
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .3s ease;
+    }
+
+    .acc-panel p{
+      margin:0;
+      padding:0 20px 20px;
+      color:var(--muted);
+    }
+
+    .quiz{
+      background:linear-gradient(150deg,#e9faf6,#fff);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:26px;
+    }
+
+    .quiz-options{
+      display:grid;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .quiz-options button{
+      border:1px solid var(--line);
+      background:#fff;
+      padding:14px 16px;
+      border-radius:14px;
+      text-align:left;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .quiz-options button:hover{
+      transform:translateY(-2px);
+      border-color:#8fd9cf;
+    }
+
+    .quiz-result{
+      margin-top:14px;
+      min-height:32px;
+      font-weight:900;
+    }
+
+    .footer{
+      padding:40px 0 56px;
+      color:var(--muted);
+      font-size:.92rem;
+    }
+
+    .footer-card{
+      background:#143c3a;
+      color:#e8f7f4;
+      border-radius:26px;
+      padding:28px;
+    }
+
+    .footer-card strong{color:#fff}
+
+    @media (max-width:900px){
+      .hero-grid,.split{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr 1fr}
+      .nav-links{display:none}
+      .hero{padding-top:38px}
+    }
+
+    @media (max-width:640px){
+      .container{width:min(calc(100% - 22px), var(--max))}
+      .grid-3,.grid-2,.myth{grid-template-columns:1fr}
+      .section-head{align-items:flex-start;flex-direction:column}
+      .card{padding:20px}
+      .ahi-row{grid-template-columns:84px 1fr}
+      .ahi-row .range{grid-column:1/-1;color:var(--muted);font-size:.88rem}
+      section{padding:36px 0}
+      h1{font-size:2.6rem}
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *{transition:none!important}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-mark">Zz</div>
+        <span>睡眠呼吸中止症｜健康學習</span>
+      </div>
+      <nav class="nav-links" aria-label="主要導覽">
+        <a href="#about">認識疾病</a>
+        <a href="#symptoms">常見症狀</a>
+        <a href="#improve">改善方式</a>
+        <a href="#doctor">何時就醫</a>
+        <a href="#faq">常見迷思</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">睡眠健康 × 預防保健</span>
+          <h1>打呼很大聲，<br>可能不只是「睡得熟」</h1>
+          <p class="hero-lead">
+            睡眠呼吸中止症會讓人在睡眠中反覆出現呼吸受阻、缺氧與短暫醒來。
+            認識症狀、風險與治療選項，才能把「打呼」背後真正的問題看清楚。
+          </p>
+          <div class="hero-points">
+            <span class="pill">✓ 看懂 AHI</span>
+            <span class="pill">✓ 認識治療方式</span>
+            <span class="pill">✓ 掌握就醫警訊</span>
+          </div>
+          <div class="disclaimer">
+            本頁為預防保健知識整理，不用來取代醫師診斷。實際是否罹患睡眠呼吸中止症、嚴重度與治療方式，請以睡眠檢查及醫療專業評估為準。
+          </div>
+        </div>
+
+        <div class="hero-art" aria-label="睡眠呼吸中止症示意插圖">
+          <svg viewBox="0 0 640 500" role="img" aria-labelledby="sleepTitle sleepDesc">
+            <title id="sleepTitle">睡眠時呼吸道阻塞示意圖</title>
+            <desc id="sleepDesc">人物側睡，旁邊顯示正常呼吸與呼吸道受阻的差異。</desc>
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1">
+                <stop offset="0" stop-color="#0f766e"/>
+                <stop offset="1" stop-color="#14b8a6"/>
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="640" height="500" rx="32" fill="#f8fffd"/>
+            <circle cx="505" cy="92" r="54" fill="#fff0bd"/>
+            <path d="M40 388 C150 332, 270 345, 375 388 S555 432, 625 394" fill="#d9f4ef"/>
+            <rect x="80" y="338" width="390" height="80" rx="28" fill="#d8ece9"/>
+            <rect x="90" y="312" width="120" height="56" rx="22" fill="#fff"/>
+            <circle cx="235" cy="292" r="62" fill="#f2c6a8"/>
+            <path d="M176 285c22-58 86-79 124-31l-5 22c-34-27-82-24-119 9z" fill="#374f58"/>
+            <path d="M281 312c72 4 130 38 156 91H222c0-40 18-74 59-91z" fill="url(#g1)"/>
+            <path d="M210 301c20 12 39 17 64 18" fill="none" stroke="#ae7c64" stroke-width="8" stroke-linecap="round"/>
+            <path d="M292 285c44-13 84-4 115 20" fill="none" stroke="#14b8a6" stroke-width="12" stroke-linecap="round" opacity=".8"/>
+            <path d="M410 300c20 10 38 24 55 43" fill="none" stroke="#14b8a6" stroke-width="8" stroke-linecap="round" stroke-dasharray="3 18"/>
+            <g transform="translate(410 135)">
+              <rect width="180" height="124" rx="22" fill="#ffffff" stroke="#d8ebe8"/>
+              <text x="20" y="34" fill="#18323a" font-size="19" font-weight="700">睡眠時呼吸道</text>
+              <path d="M30 70 C58 53,75 53,95 70 C114 87,136 87,155 69" fill="none" stroke="#0f766e" stroke-width="13" stroke-linecap="round"/>
+              <circle cx="96" cy="70" r="17" fill="#f59e0b" opacity=".9"/>
+              <text x="20" y="105" fill="#60757a" font-size="15">阻塞 → 缺氧 → 短暫醒來</text>
+            </g>
+            <text x="52" y="66" font-size="28" font-weight="900" fill="#0f766e">Z</text>
+            <text x="82" y="44" font-size="22" font-weight="900" fill="#14b8a6">Z</text>
+            <text x="108" y="22" font-size="18" font-weight="900" fill="#8bd6cc">Z</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">01｜這代表什麼？</span>
+            <h2>睡著後，呼吸道反覆「變窄或堵住」</h2>
+          </div>
+          <p>
+            最常見的是阻塞型睡眠呼吸中止症（OSA）。睡眠時上呼吸道容易塌陷，使呼吸量下降或暫停，進而造成血氧下降與睡眠反覆中斷。
+          </p>
+        </div>
+
+        <div class="grid grid-3">
+          <article class="card">
+            <div class="icon">🌙</div>
+            <h3>夜間反覆受阻</h3>
+            <p>呼吸道在睡眠時變窄甚至暫時閉合，可能出現打呼、呼吸停頓、喘醒。</p>
+          </article>
+          <article class="card">
+            <div class="icon">🫁</div>
+            <h3>血氧可能下降</h3>
+            <p>呼吸受阻期間，身體可能短暫缺氧，接著因腦部喚醒反應重新恢復呼吸。</p>
+          </article>
+          <article class="card">
+            <div class="icon">🧠</div>
+            <h3>睡眠被切碎</h3>
+            <p>即使自己不記得醒來，深層睡眠仍可能被干擾，白天因此疲累、嗜睡或注意力不佳。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container split">
+        <div class="visual-card">
+          <h3>AHI 是什麼？</h3>
+          <p>AHI 是「每小時睡眠中，呼吸中止或低通氣發生的平均次數」。它是判斷成人 OSA 嚴重度的重要參考之一。</p>
+          <svg viewBox="0 0 420 250" aria-label="AHI 示意圖">
+            <rect x="28" y="40" width="364" height="150" rx="28" fill="#ffffff" opacity=".13"/>
+            <path d="M55 122 H115 L132 86 L157 163 L178 105 L201 122 H250 L270 96 L292 145 L312 122 H365"
+                  fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="132" cy="86" r="8" fill="#f8c058"/>
+            <circle cx="157" cy="163" r="8" fill="#f8c058"/>
+            <circle cx="270" cy="96" r="8" fill="#f8c058"/>
+            <text x="53" y="220" fill="#d8f5ef" font-size="18">每小時事件越多，通常代表程度越嚴重</text>
+          </svg>
+        </div>
+
+        <div class="card">
+          <div class="ahi">
+            <div class="ahi-row">
+              <div class="ahi-label">一般範圍</div>
+              <div class="bar"><span style="width:18%"></span></div>
+              <div class="range">&lt; 5 次／小時</div>
+            </div>
+            <div class="ahi-row">
+              <div class="ahi-label">輕度</div>
+              <div class="bar"><span style="width:40%"></span></div>
+              <div class="range">5–15</div>
+            </div>
+            <div class="ahi-row">
+              <div class="ahi-label">中度</div>
+              <div class="bar"><span style="width:68%"></span></div>
+              <div class="range">15–30</div>
+            </div>
+            <div class="ahi-row">
+              <div class="ahi-label">重度</div>
+              <div class="bar"><span style="width:100%"></span></div>
+              <div class="range">&gt; 30</div>
+            </div>
+          </div>
+          <p style="margin:18px 0 0;color:var(--muted);font-size:.92rem">
+            注意：實際判讀不能只看 AHI，醫師也會一起看血氧、症狀、睡眠結構與共病情況。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="symptoms">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">02｜常見症狀</span>
+            <h2>晚上看呼吸，白天看精神</h2>
+          </div>
+          <p>有些人自己不知道睡眠期間發生了什麼，因此伴侶或家人的觀察往往很重要。</p>
+        </div>
+
+        <div class="grid grid-2">
+          <article class="card">
+            <div class="icon">🌃</div>
+            <h3>夜間可能出現</h3>
+            <ul class="checklist">
+              <li><span class="check">✓</span><span>大聲、不規律打呼</span></li>
+              <li><span class="check">✓</span><span>呼吸停頓後突然大吸氣、喘醒</span></li>
+              <li><span class="check">✓</span><span>睡眠反覆中斷、夜間頻尿</span></li>
+              <li><span class="check">✓</span><span>早晨口乾或喉嚨不舒服</span></li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <div class="icon">☀️</div>
+            <h3>白天可能出現</h3>
+            <ul class="checklist">
+              <li><span class="check">✓</span><span>明明睡很久，仍覺得睡不飽</span></li>
+              <li><span class="check">✓</span><span>白天嗜睡、開會或看電視容易打瞌睡</span></li>
+              <li><span class="check">✓</span><span>注意力、記憶或工作效率下降</span></li>
+              <li><span class="check">✓</span><span>晨起頭痛、精神不佳或情緒易受影響</span></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="improve">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">03｜改善方式</span>
+            <h2>不是只有一種治療，重點是「找對原因」</h2>
+          </div>
+          <p>治療通常依嚴重度、阻塞位置、體重、顎顏結構與個人耐受度做組合，不一定人人都相同。</p>
+        </div>
+
+        <div class="grid grid-3">
+          <article class="card treatment">
+            <span class="tag">生活調整</span>
+            <h3>體重管理與規律運動</h3>
+            <p>若過重是重要因素，減重有機會降低呼吸道阻塞程度；規律運動也有助整體睡眠與心血管健康。</p>
+          </article>
+          <article class="card treatment">
+            <span class="tag">生活調整</span>
+            <h3>睡姿調整</h3>
+            <p>部分人仰睡時阻塞更明顯，經專業判斷後可嘗試側睡或姿勢治療。</p>
+          </article>
+          <article class="card treatment">
+            <span class="tag">生活調整</span>
+            <h3>避免睡前酒精</h3>
+            <p>酒精可能讓咽喉肌肉更鬆弛，使上呼吸道阻塞加劇；吸菸也可能增加呼吸道發炎。</p>
+          </article>
+          <article class="card treatment">
+            <span class="tag">常見治療</span>
+            <h3>CPAP／APAP 正壓呼吸器</h3>
+            <p>利用空氣壓力把容易塌陷的呼吸道撐開。它不是單純「補氧」，而是維持呼吸道暢通。</p>
+          </article>
+          <article class="card treatment">
+            <span class="tag">特定族群</span>
+            <h3>口腔裝置</h3>
+            <p>部分患者可使用客製化下顎前移裝置，增加上呼吸道空間，需由合適的醫療專業人員評估。</p>
+          </article>
+          <article class="card treatment">
+            <span class="tag">輔助方式</span>
+            <h3>口咽肌訓練</h3>
+            <p>舌頭與口咽肌群訓練可作為部分患者的輔助策略，但不能自行取代中重度 OSA 的主要治療。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">影片核心觀念</span>
+            <h2>「鼾聲變小」不等於「呼吸中止好了」</h2>
+          </div>
+        </div>
+
+        <div class="myth">
+          <div class="myth-box bad">
+            <strong>✕ 常見誤解</strong>
+            「做完止鼾治療，聲音變小，所以睡眠呼吸中止症應該好了。」
+          </div>
+          <div class="myth-box good">
+            <strong>✓ 更重要的是</strong>
+            看呼吸事件、缺氧程度與睡眠品質是否真正改善，而不是只看鼾聲大小。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container split">
+        <div class="card">
+          <span class="eyebrow">手術怎麼看？</span>
+          <h2 style="font-size:2rem;margin:16px 0 10px">先問「阻塞在哪裡？」</h2>
+          <p style="color:var(--muted)">
+            手術不是越「微創」就一定越適合。鼻腔、扁桃腺、軟顎、舌根、上下顎骨架，都可能是不同患者的主要阻塞位置。
+          </p>
+          <ul class="checklist" style="margin-top:18px">
+            <li><span class="check">1</span><span>先確認睡眠檢查結果與嚴重度</span></li>
+            <li><span class="check">2</span><span>找出主要阻塞位置與結構問題</span></li>
+            <li><span class="check">3</span><span>比較呼吸器、牙套、生活調整與手術的適用性</span></li>
+            <li><span class="check">4</span><span>手術後仍需追蹤，並非一定一勞永逸</span></li>
+          </ul>
+        </div>
+
+        <div class="visual-card" style="background:linear-gradient(160deg,#123d4a,#0f766e)">
+          <h3>治療像「組合策略」</h3>
+          <p>同一位患者可能需要不只一種方式，才能達到較好的長期控制。</p>
+          <svg viewBox="0 0 480 330" aria-label="多元治療方式示意圖">
+            <circle cx="240" cy="160" r="76" fill="#ffffff" opacity=".16"/>
+            <circle cx="240" cy="160" r="52" fill="#ffffff"/>
+            <text x="240" y="150" text-anchor="middle" fill="#0f766e" font-size="18" font-weight="900">個別化</text>
+            <text x="240" y="176" text-anchor="middle" fill="#0f766e" font-size="18" font-weight="900">治療計畫</text>
+            <g fill="#fff">
+              <rect x="25" y="45" width="130" height="54" rx="18" opacity=".15"/>
+              <rect x="325" y="45" width="130" height="54" rx="18" opacity=".15"/>
+              <rect x="25" y="230" width="130" height="54" rx="18" opacity=".15"/>
+              <rect x="325" y="230" width="130" height="54" rx="18" opacity=".15"/>
+            </g>
+            <g fill="#e8f7f4" font-size="17" font-weight="800">
+              <text x="90" y="78" text-anchor="middle">生活調整</text>
+              <text x="390" y="78" text-anchor="middle">正壓呼吸器</text>
+              <text x="90" y="263" text-anchor="middle">口腔裝置</text>
+              <text x="390" y="263" text-anchor="middle">手術評估</text>
+            </g>
+            <g stroke="#9ae7da" stroke-width="4" stroke-dasharray="8 10">
+              <line x1="155" y1="91" x2="199" y2="126"/>
+              <line x1="325" y1="91" x2="281" y2="126"/>
+              <line x1="155" y1="238" x2="196" y2="197"/>
+              <line x1="325" y1="238" x2="284" y2="197"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section id="doctor">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">04｜何時需要就醫？</span>
+            <h2>出現這些警訊，值得安排睡眠評估</h2>
+          </div>
+          <p>尤其當症狀已影響白天精神、安全或伴隨心血管與代謝疾病時，更不建議只把它當成普通打呼。</p>
+        </div>
+
+        <div class="grid grid-3">
+          <article class="card warning">
+            <div class="icon">🚨</div>
+            <h3>家人看到呼吸停住</h3>
+            <p>出現「打呼 → 突然安靜 → 接著大吸氣或喘醒」的型態，應考慮進一步評估。</p>
+          </article>
+          <article class="card warning">
+            <div class="icon">😴</div>
+            <h3>白天嗜睡很明顯</h3>
+            <p>若開車、工作、開會或日常活動常因嗜睡受影響，可能涉及安全風險。</p>
+          </article>
+          <article class="card warning">
+            <div class="icon">❤️</div>
+            <h3>伴隨慢性病</h3>
+            <p>若已有高血壓、糖尿病、心血管疾病或心律不整，又合併打呼與嗜睡，更值得主動和醫師討論。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container quiz">
+        <span class="eyebrow">30 秒自我檢視</span>
+        <h2 style="margin:14px 0 6px">哪一種情況最值得進一步檢查？</h2>
+        <p style="color:var(--muted);margin:0">點一個答案看看。</p>
+        <div class="quiz-options">
+          <button data-answer="wrong">A. 偶爾熬夜後隔天比較累</button>
+          <button data-answer="right">B. 睡覺會大聲打呼，家人還看到呼吸停頓，白天常想睡</button>
+          <button data-answer="wrong">C. 偶爾換枕頭後睡得不習慣</button>
+        </div>
+        <div class="quiz-result" id="quizResult" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">05｜常見迷思</span>
+            <h2>把容易搞混的觀念一次釐清</h2>
+          </div>
+        </div>
+
+        <div class="accordion">
+          <div class="acc">
+            <button type="button"><span>打呼就是睡眠呼吸中止症嗎？</span><span>＋</span></button>
+            <div class="acc-panel">
+              <p>不一定。打呼很常見，但如果合併呼吸停頓、喘醒、缺氧或白天明顯嗜睡，就更需要進一步評估。</p>
+            </div>
+          </div>
+          <div class="acc">
+            <button type="button"><span>瘦的人就不會得嗎？</span><span>＋</span></button>
+            <div class="acc-panel">
+              <p>不是。體重只是其中一個風險因素，鼻腔、扁桃腺、舌根、下顎與顏面骨架等結構也可能讓呼吸道較狹窄。</p>
+            </div>
+          </div>
+          <div class="acc">
+            <button type="button"><span>CPAP 是在補氧嗎？</span><span>＋</span></button>
+            <div class="acc-panel">
+              <p>主要不是。CPAP 的核心作用是提供持續正壓，幫助維持上呼吸道暢通，避免睡眠時反覆塌陷。</p>
+            </div>
+          </div>
+          <div class="acc">
+            <button type="button"><span>做完手術就一定永久根治嗎？</span><span>＋</span></button>
+            <div class="acc-panel">
+              <p>不能這樣保證。手術適用性取決於阻塞位置與個人條件，之後仍可能因體重、年齡或結構變化而需要持續追蹤。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-card">
+        <strong>健康提醒：</strong>
+        本網頁內容用於一般健康教育與預防保健學習，不提供個人診斷、處方或手術建議。
+        若你或家人有明顯呼吸停頓、白天嗜睡、睡眠中反覆喘醒，請諮詢睡眠醫學、胸腔內科、耳鼻喉科或相關醫療專業人員。
+      </div>
+      <p style="margin:18px 4px 0">
+        主題：睡眠呼吸中止症 10 大疑問－治療與手術｜單頁式健康教育網頁
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Accordion
+    document.querySelectorAll('.acc').forEach(item => {
+      const btn = item.querySelector('button');
+      const panel = item.querySelector('.acc-panel');
+      btn.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+
+        document.querySelectorAll('.acc').forEach(other => {
+          other.classList.remove('open');
+          other.querySelector('.acc-panel').style.maxHeight = null;
+        });
+
+        if (!isOpen) {
+          item.classList.add('open');
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // Mini quiz
+    const result = document.getElementById('quizResult');
+    document.querySelectorAll('.quiz-options button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const right = btn.dataset.answer === 'right';
+        result.textContent = right
+          ? '答對了！這種「打呼＋呼吸停頓＋白天嗜睡」的組合特別值得進一步做睡眠評估。'
+          : '這個情況本身不一定代表睡眠呼吸中止症。再想想：哪個選項同時出現夜間呼吸異常與白天症狀？';
+        result.style.color = right ? '#0f766e' : '#b45309';
+      });
+    });
+
+    // Active anchor helper
+    const links = [...document.querySelectorAll('.nav-links a')];
+    const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(sec => {
+        if (window.scrollY >= sec.offsetTop - 110) current = '#' + sec.id;
+      });
+      links.forEach(a => {
+        const active = a.getAttribute('href') === current;
+        a.style.background = active ? '#ffffff' : '';
+        a.style.color = active ? '#0f766e' : '';
+      });
+    }, { passive:true });
+  </script>
+</body>
+</html>
